@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 这里路径要和接口完全一致 -->
+<mapper namespace="com.mapper.PosMapper">
+	<insert id="insertPos" parameterType="Pos">
+		insert into pos
+		values(
+		#{pos_num},
+		#{pos_year},
+		#{pos_month},
+		#{pos_day},
+		#{pos_store_num},
+		#{pos_store_remark},
+		#{pos_customer_num},
+		#{pos_customer_remark},
+		#{pos_goods_num},
+		#{pos_goods_remark},
+		#{pos_quantity},
+		#{pos_sale_price},
+		#{pos_total_price},
+		#{pos_reduced_price},
+		#{pos_final_price},
+		#{pos_agency_num},
+		#{pos_remark})
+	</insert>
+	
+	<select id="selectAllPos" resultType="Pos">
+		select * from pos
+	</select>
+</mapper>

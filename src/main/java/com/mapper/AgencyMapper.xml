@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 这里路径要和接口完全一致 -->
+<mapper namespace="com.mapper.AgencyMapper">
+	<insert id="insertAgency" parameterType="Agency">
+		insert into agency
+		values(
+		#{agency_num},
+		#{agency_username},
+		#{agency_password},
+		#{agency_name},
+		#{agency_telephone},
+		#{agency_gender},
+		#{agency_year},
+		#{agency_month},
+		#{agency_remark})
+	</insert>
+	
+	<select id="selectAllAgency" resultType="Agency">
+		select * from agency
+	</select>
+</mapper>

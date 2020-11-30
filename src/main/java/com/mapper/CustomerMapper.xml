@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 这里路径要和接口完全一致 -->
+<mapper namespace="com.mapper.CustomerMapper">
+	<insert id="insertCustomer" parameterType="Customer">
+		insert into customer
+		values(
+		#{customer_num},
+		#{customer_name},
+		#{customer_telephone},
+		#{customer_gender},
+		#{customer_year},
+		#{customer_month},
+		#{customer_remark})
+	</insert>
+	
+	<select id="selectAllCustomer" resultType="Customer">
+		select * from customer
+	</select>
+</mapper>

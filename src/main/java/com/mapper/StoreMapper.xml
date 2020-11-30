@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 这里路径要和接口完全一致 -->
+<mapper namespace="com.mapper.StoreMapper">
+	<insert id="insertStore" parameterType="Store">
+		insert into store
+		values(#{store_num},
+		#{store_name},
+		#{store_province},
+		#{store_city},
+		#{store_block},
+		#{store_street},
+		#{store_address},
+		#{store_type},
+		#{store_customer_num},
+		#{store_agency_num},
+		#{store_location_area},
+		#{store_landmark1},
+		#{store_landmark2},
+		#{store_landmark3},
+		#{store_landmark4},
+		#{store_marked_map},
+		#{store_cooperation_start_date},
+		#{store_cooperation_end_date},
+		#{store_end_reason},
+		#{store_remark})
+	</insert>
+	
+	<select id="selectAllStore" resultType="Store">
+		select * from store
+	</select>
+</mapper>

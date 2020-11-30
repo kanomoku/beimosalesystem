@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 这里路径要和接口完全一致 -->
+<mapper namespace="com.mapper.GoodsMapper">
+	<insert id="insertGoods" parameterType="Goods">
+		insert into goods
+		values(
+		#{goods_num},
+		#{goods_name},
+		#{goods_flavor },
+		#{goods_category},
+		#{goods_specification},
+		#{goods_expiration_date},
+		#{goods_plant},
+		#{goods_legal_person},
+		#{goods_mill_price},
+		#{goods_first_class_agent_price},
+		#{goods_second_class_agent_price},
+		#{goods_third_class_agent_price},
+		#{goods_store_purchase_price},
+		#{goods_sale_price},
+		#{goods_remark})
+	</insert>
+	
+	<select id="selectAllGoods" resultType="Goods">
+		select * from goods
+	</select>
+</mapper>

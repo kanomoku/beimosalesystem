@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- 除了事务，mybatis的所有标签都在这部分配置好了 -->
+	<!-- 数据源封装类 数据源：获取数据库连接 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/test"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="123456"></property>
+	</bean>
+	<!-- spring帮助创建sqlsessionfactory对象 -->
+	<bean id="factory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 数据库连接信息来源于DataSource -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 别名 -->
+		<property name="typeAliasesPackage" value="com.pojo"></property>
+	</bean>
+	<!-- 扫描器 相当于mybatis下的mapper标签下的package标签  扫描com.mapper后，创建接口对象 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 和factory产生关系 -->
+		<property name="sqlSessionFactory" ref="factory"></property>
+		<!-- 扫描哪个包 -->
+		<property name="basePackage" value="com.mapper"></property><!-- mapper包下的类都会在加载配置文件的时候自动创建对象 -->
+	</bean>
+    
+    <!-- 由spring管理service实现类 -->
+	<bean id="goodsServiceImpl" class="com.service.impl.GoodsServiceImpl">
+		<property name="goodsMapper" ref="goodsMapper"></property><!-- spring 的设值注入property 要求有set方法 -->
+	</bean>
+		<bean id="agencyServiceImpl" class="com.service.impl.AgencyServiceImpl">
+		<property name="agencyMapper" ref="agencyMapper"></property>
+	</bean>
+		<bean id="customerServiceImpl" class="com.service.impl.CustomerServiceImpl">
+		<property name="customerMapper" ref="customerMapper"></property>
+	</bean>
+		<bean id="storeServiceImpl" class="com.service.impl.StoreServiceImpl">
+		<property name="storeMapper" ref="storeMapper"></property>
+	</bean>
+		<bean id="posServiceImpl" class="com.service.impl.PosServiceImpl">
+		<property name="posMapper" ref="posMapper"></property>
+	</bean>
+</beans>
