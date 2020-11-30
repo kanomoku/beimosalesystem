@@ -8,10 +8,10 @@ import com.pojo.Customer;
 public interface CustomerMapper {
 
 	int insertCustomer(Customer customer);
-	
+
 	List<Customer> selectAllCustomer();
-	
+
 	List<Customer> selByPage(Map map);
-	
+
 	Long selCount();
 }

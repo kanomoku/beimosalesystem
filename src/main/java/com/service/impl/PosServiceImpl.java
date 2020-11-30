@@ -1,12 +1,15 @@
 package com.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import com.mapper.PosMapper;
+import com.pojo.PageInfo;
 import com.pojo.Pos;
 import com.service.PosService;
 
@@ -35,4 +38,21 @@ public class PosServiceImpl implements PosService{
 		return posMapper.insertPos(pos);
 	}
 
+	@Override
+	public PageInfo showPage(int pageSize, int pageNum){
+
+		PageInfo pi = new PageInfo();
+		pi.setPageNum(pageNum);
+		pi.setPageSize(pageSize);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pageStart", pageSize * (pageNum - 1));
+		map.put("pageSize", pageSize);
+		List<Pos> posList = posMapper.selByPage(map);
+		pi.setList(posList);
+		
+		long count = posMapper.selCount();
+		pi.setTotal(count % pageSize == 0 ? count / pageSize : count / pageSize + 1);
+		return pi;
+	}
 }

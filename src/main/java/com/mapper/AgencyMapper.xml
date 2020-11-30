@@ -21,4 +21,11 @@
 	<select id="selectAllAgency" resultType="Agency">
 		select * from agency
 	</select>
+	
+	<select id="selByPage" resultType="Agency" parameterType="map">
+		select * from agency limit #{pageStart},#{pageSize}
+	</select>
+	<select id="selCount" resultType="long">
+		select count(*) from agency
+	</select>
 </mapper>

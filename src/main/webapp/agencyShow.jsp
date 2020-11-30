@@ -21,32 +21,36 @@ a:hover {
 <body>
 	<table border='2'>
 		<tr>
-			<th>店家负责人编号</th>
+			<th>代理商负责人编号</th>
+			<th>用户名</th>
+			<th>密码</th>
 			<th>姓名</th>
 			<th>电话</th>
 			<th>性别</th>
 			<th>出生年</th>
 			<th>出生月</th>
-			<th>负责人备注</th>
+			<th>店家负责人备注</th>
 		</tr>
-		<c:forEach items="${pageInfo.list}" var="customer">
+		<c:forEach items="${pageInfo.list}" var="agency">
 			<tr>
-				<td>${customer.customer_num}</td>
-				<td>${customer.customer_name}</td>
-				<td>${customer.customer_telephone}</td>
-				<td>${customer.customer_gender}</td>
-				<td>${customer.customer_year}</td>
-				<td>${customer.customer_month}</td>
-				<td>${customer.customer_remark}</td>
+				<td>${agency.agency_num}</td>
+				<td>${agency.agency_username}</td>
+				<td>${agency.agency_password}</td>
+				<td>${agency.agency_name}</td>
+				<td>${agency.agency_telephone}</td>
+				<td>${agency.agency_gender}</td>
+				<td>${agency.agency_year}</td>
+				<td>${agency.agency_month}</td>
+				<td>${agency.agency_remark}</td>
 			</tr>
 		</c:forEach>
 	</table>
 		<a
-		href="customerShow?pageNum=${pageInfo.pageNum-1}&pageSize=${pageInfo.pageSize}"
+		href="agencyShow?pageNum=${pageInfo.pageNum-1}&pageSize=${pageInfo.pageSize}"
 		<c:if test="${pageInfo.pageNum<=1}" > onclick="javascript:return false;" </c:if>
 		>上一页</a>
 	<a
-		href="customerShow?pageNum=${pageInfo.pageNum+1}&pageSize=${pageInfo.pageSize}"
+		href="agencyShow?pageNum=${pageInfo.pageNum+1}&pageSize=${pageInfo.pageSize}"
 		<c:if test="${pageInfo.pageNum>= pageInfo.total}"> onclick="javascript:return false;"</c:if>
 		>下一页</a><br>
 	<a href="index.jsp">回到导航页</a>

@@ -9,13 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.pojo.PageInfo;
-import com.service.GoodsService;
+import com.service.StoreService;
 
 @Controller
-public class GoodsController {
+public class StoreController {
 	@Resource
-	private GoodsService goodsServiceImpl;
-	@RequestMapping("goodsShow")
+	private StoreService storeServiceImpl;
+	@RequestMapping("storeShow")
 	public String show(HttpServletRequest req,Model model){
 		
 		String pageSizeStr = req.getParameter("pageSize");
@@ -29,12 +29,12 @@ public class GoodsController {
 			pageNum = Integer.parseInt(pageNumStr);
 		}
 		
-		Logger logger = Logger.getLogger(CustomerController.class);
+		Logger logger = Logger.getLogger(StoreController.class);
 		logger.info("------------------------------------");
 		
 		
-		PageInfo showPage = goodsServiceImpl.showPage(pageSize, pageNum);
+		PageInfo showPage = storeServiceImpl.showPage(pageSize, pageNum);
 		model.addAttribute("pageInfo", showPage);
-		return "goodsShow.jsp";
+		return "storeShow.jsp";
 	}
 }

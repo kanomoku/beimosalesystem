@@ -27,4 +27,11 @@
 	<select id="selectAllGoods" resultType="Goods">
 		select * from goods
 	</select>
+	
+	<select id="selByPage" resultType="Goods" parameterType="map">
+		select * from goods limit #{pageStart},#{pageSize}
+	</select>
+	<select id="selCount" resultType="long">
+		select count(*) from goods
+	</select>
 </mapper>

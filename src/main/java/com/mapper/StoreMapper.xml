@@ -31,4 +31,11 @@
 	<select id="selectAllStore" resultType="Store">
 		select * from store
 	</select>
+	
+	<select id="selByPage" resultType="Store" parameterType="map">
+		select * from store limit #{pageStart},#{pageSize}
+	</select>
+	<select id="selCount" resultType="long">
+		select count(*) from store
+	</select>
 </mapper>
