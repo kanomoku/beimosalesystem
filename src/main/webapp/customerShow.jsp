@@ -19,7 +19,7 @@ a:hover {
 </style>
 </head>
 <body>
-	<table border='5'>
+	<table border='2'>
 		<tr>
 			<th>店家负责人编号</th>
 			<th>姓名</th>
@@ -29,7 +29,7 @@ a:hover {
 			<th>出生月</th>
 			<th>负责人备注</th>
 		</tr>
-		<c:forEach items="${customerList}" var="customer">
+		<c:forEach items="${pageInfo.list}" var="customer">
 			<tr>
 				<td>${customer.customer_num}</td>
 				<td>${customer.customer_name}</td>
@@ -41,6 +41,13 @@ a:hover {
 			</tr>
 		</c:forEach>
 	</table>
-	<a href="/customerShow">查询客户负责人</a>
+		<a
+		href="customerShow?pageNum=${pageInfo.pageNum-1}&pageSize=${pageInfo.pageSize}"
+		<c:if test="${pageInfo.pageNum<=1}" > onclick="javascript:return false;" </c:if>
+		>上一页</a>
+	<a
+		href="customerShow?pageNum=${pageInfo.pageNum+1}&pageSize=${pageInfo.pageSize}"
+		<c:if test="${pageInfo.pageNum>= pageInfo.total}"> onclick="javascript:return false;"</c:if>
+		>下一页</a>
 </body>
 </html>

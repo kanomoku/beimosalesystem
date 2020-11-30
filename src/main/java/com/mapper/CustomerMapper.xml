@@ -19,4 +19,11 @@
 	<select id="selectAllCustomer" resultType="Customer">
 		select * from customer
 	</select>
+	
+	<select id="selByPage" resultType="Customer" parameterType="map">
+		select * from customer limit #{pageStart},#{pageSize}
+	</select>
+	<select id="selCount" resultType="long">
+		select count(*) from customer 
+	</select>
 </mapper>
