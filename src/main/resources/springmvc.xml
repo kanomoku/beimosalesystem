@@ -16,5 +16,22 @@
     <!-- 静态资源 -->
     <mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
     <mvc:resources location="/images/" mapping="/images/**"></mvc:resources>
-    <mvc:resources location="/files/" mapping="/files/**"></mvc:resources>
+	<mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
+	<mvc:resources location="/file/" mapping="/file/**"></mvc:resources>
+	
+		<!-- MultipartResovler解析器 -->
+	<!-- 2. MultipartResovler 作用: -->
+	<!-- 2.1 把客户端上传的文件流转换成MutipartFile封装类. -->
+	<!-- 2.2 通过MutipartFile封装类获取到文件流 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+<!-- 		<property name="maxUploadSize" value="1024"></property>1024个字节，也就是1kb -->
+	</bean>
+	<!-- 异常解析器 -->
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">/error.jsp</prop>
+			</props>
+		</property>
+	</bean>
 </beans>

@@ -13,4 +13,5 @@
 <a href="/goodsShow">查询产品信息</a><br>
 <a href="/storeShow">查询门店信息</a><br>
 <a href="/posShow">查询销售记录</a><br>
+<a href="readDateToDBService.jsp">存Excel文件到DB</a><br>
 </html>
