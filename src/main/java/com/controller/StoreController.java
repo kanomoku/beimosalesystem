@@ -20,7 +20,7 @@ public class StoreController {
 		
 		String pageSizeStr = req.getParameter("pageSize");
 		String pageNumStr = req.getParameter("pageNum");
-		int pageSize = 2;
+		int pageSize = 25;
 		int pageNum = 1;
 		if (pageSizeStr != null && !"".equals(pageSizeStr)) {
 			pageSize = Integer.parseInt(pageSizeStr);

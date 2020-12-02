@@ -34,7 +34,7 @@ public class ReadExcelSaveToDBSpringMybatisAnnotationTest {
 		try {
 			ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
 
-			Workbook workbook = WorkbookFactory.create(new File("D:\\asd.xlsx"));
+			Workbook workbook = WorkbookFactory.create(new File("D:\\saleData.xlsx"));
 
 			GoodsServiceImpl goodsServiceImpl = ac.getBean("goodsServiceImpl", GoodsServiceImpl.class);
 			AgencyServiceImpl agencyServiceImpl = ac.getBean("agencyServiceImpl", AgencyServiceImpl.class);

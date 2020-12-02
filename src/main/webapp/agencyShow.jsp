@@ -25,7 +25,7 @@ td {
 </head>
 <body>
 	<div style="overflow: auto; width: 100%;">
-		<table border="1" height="120px" align="left">
+		<table border="1" height="55px" align="left">
 			<tr>
 				<th>代理商负责人编号</th>
 				<th>用户名</th>
