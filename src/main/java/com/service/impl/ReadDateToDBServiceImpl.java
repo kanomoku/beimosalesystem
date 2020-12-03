@@ -181,10 +181,12 @@ public class ReadDateToDBServiceImpl implements ReadDateToDBService {
 			Row row = sheet.getRow(i);
 			String[] str = new String[row.getLastCellNum()];
 			for (int j = 0; j < row.getLastCellNum(); j++) {
+//				System.out.print(j+" ");
 				Cell cell = row.getCell(j);
 				cell.setCellType(CellType.STRING);
 				str[j] = cell.getStringCellValue().trim();
 			}
+//			System.out.println();
 			Pos pos = new Pos();
 			pos.setPos_num(Long.valueOf(str[0]));
 			pos.setPos_year(str[1]);
