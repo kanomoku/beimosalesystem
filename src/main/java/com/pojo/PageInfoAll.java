@@ -2,7 +2,7 @@ package com.pojo;
 
 import java.util.List;
 
-public class PageInfo {
+public class PageInfoAll{
 	// 每页显示个数
 	private int pageSize;
 	// 当前第几页
@@ -11,6 +11,34 @@ public class PageInfo {
 	private Long total;
 	// 当前页显示的数据
 	private List<?> list;
+
+	private String posYear;
+	private String posMonth;
+	private String posDay;
+
+	public String getPosYear() {
+		return posYear;
+	}
+
+	public void setPosYear(String posYear) {
+		this.posYear = posYear;
+	}
+
+	public String getPosMonth() {
+		return posMonth;
+	}
+
+	public void setPosMonth(String posMonth) {
+		this.posMonth = posMonth;
+	}
+
+	public String getPosDay() {
+		return posDay;
+	}
+
+	public void setPosDay(String posDay) {
+		this.posDay = posDay;
+	}
 
 	public final int getPageSize() {
 		return pageSize;

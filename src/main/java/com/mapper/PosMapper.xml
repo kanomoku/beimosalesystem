@@ -36,4 +36,21 @@
 	<select id="selCount" resultType="long">
 		select count(*) from pos
 	</select>
+
+	<select id="selOrderByPage" resultType="Pos">
+			select * from pos 					
+			    <where>
+					<if test="posYear!=null and posYear !=''">
+						and pos.pos_year=#{posYear}
+					</if>
+					<if test="posMonth!=null and posMonth !=''">
+						and pos.pos_month=#{posMonth}
+					</if>
+					<if test="posDay!=null and posDay !=''">
+						and pos.pos_day=#{posDay}
+					</if>
+				</where> 
+				order by pos.pos_quantity desc
+				limit #{pageStart},#{pageSize}
+	</select>
 </mapper>

@@ -39,4 +39,14 @@ td {
 <br>
 <a href="readDateToDBService.jsp">存Excel文件到DB</a>
 <br>
+<br>
+
+<form action="posOrderShow" method="post">
+	年：<input type="text" name="posYear"/>
+	月：<input type="text" name="posMonth"/>
+	日：<input type="text" name="posDay"/>
+	<input type="submit" value="查询对应日期销售数量-降序显示"/>
+</form>
+<br>
+
 </html>

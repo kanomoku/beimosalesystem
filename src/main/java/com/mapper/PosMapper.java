@@ -14,5 +14,7 @@ public interface PosMapper {
 
 	List<Pos> selByPage(Map map);
 
+	List<Pos> selOrderByPage(Map map);
+
 	Long selCount();
 }
