@@ -23,7 +23,8 @@
 		#{pos_reduced_price},
 		#{pos_final_price},
 		#{pos_agency_num},
-		#{pos_remark})
+		#{pos_remark},
+		#{pos_visit})
 	</insert>
 	
 	<select id="selectAllPos" resultType="Pos">

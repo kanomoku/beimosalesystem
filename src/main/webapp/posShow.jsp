@@ -44,6 +44,7 @@ td {
 				<th>优惠后价格</th>
 				<th>代理商负责人编号</th>
 				<th>POS备注</th>
+				<th>拜访</th>
 			</tr>
 			<c:forEach items="${pageInfo.list}" var="pos">
 				<tr>
@@ -64,6 +65,7 @@ td {
 					<td>${pos.pos_final_price}</td>
 					<td>${pos.pos_agency_num}</td>
 					<td>${pos.pos_remark}</td>
+					<td>${pos.pos_visit}</td>
 				</tr>
 			</c:forEach>
 		</table>

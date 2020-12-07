@@ -209,6 +209,7 @@ public class ReadDateToDBServiceImpl implements ReadDateToDBService {
 			pos.setPos_final_price(new BigDecimal(str[18]));
 			pos.setPos_agency_num(Long.valueOf(str[19]));
 			pos.setPos_remark(str[20]);
+			pos.setPos_visit(str[21]);
 			list.add(pos);
 		}
 		return list;

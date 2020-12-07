@@ -20,6 +20,14 @@ public class Pos {
 	private BigDecimal pos_final_price;
 	private	long	pos_agency_num	;
 	private String pos_remark;
+	private String pos_visit;
+	
+	public String getPos_visit() {
+		return pos_visit;
+	}
+	public void setPos_visit(String pos_visit) {
+		this.pos_visit = pos_visit;
+	}
 	public long getPos_num() {
 		return pos_num;
 	}
