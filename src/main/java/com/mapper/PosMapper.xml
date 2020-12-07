@@ -5,7 +5,7 @@
 <!-- 这里路径要和接口完全一致 -->
 <mapper namespace="com.mapper.PosMapper">
 	<insert id="insertPos" parameterType="Pos">
-		insert into pos
+		insert ignore into pos
 		values(
 		#{pos_num},
 		#{pos_year},

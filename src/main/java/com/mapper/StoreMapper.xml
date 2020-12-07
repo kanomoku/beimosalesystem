@@ -5,7 +5,7 @@
 <!-- 这里路径要和接口完全一致 -->
 <mapper namespace="com.mapper.StoreMapper">
 	<insert id="insertStore" parameterType="Store">
-		insert into store
+		insert ignore into store
 		values(#{store_num},
 		#{store_name},
 		#{store_province},

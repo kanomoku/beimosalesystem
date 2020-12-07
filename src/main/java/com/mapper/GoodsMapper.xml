@@ -5,7 +5,7 @@
 <!-- 这里路径要和接口完全一致 -->
 <mapper namespace="com.mapper.GoodsMapper">
 	<insert id="insertGoods" parameterType="Goods">
-		insert into goods
+		insert ignore into goods
 		values(
 		#{goods_num},
 		#{goods_name},

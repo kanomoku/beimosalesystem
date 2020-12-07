@@ -5,7 +5,7 @@
 <!-- 这里路径要和接口完全一致 -->
 <mapper namespace="com.mapper.AgencyMapper">
 	<insert id="insertAgency" parameterType="Agency">
-		insert into agency
+		insert ignore into agency
 		values(
 		#{agency_num},
 		#{agency_username},
