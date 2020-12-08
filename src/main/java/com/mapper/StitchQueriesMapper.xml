@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 这里路径要和接口完全一致 -->
+<mapper namespace="com.mapper.StitchQueriesMapper">
+	
+    <select id="selectBasicByDate" parameterType="map" resultType="java.util.HashMap">
+			SELECT
+				s.store_num,
+				s.store_name,
+				s.store_province,
+				s.store_city,
+				s.store_block,
+				s.store_street,
+				p.pos_quantity,
+				p.pos_visit,
+				c.customer_name,
+				c.customer_telephone,
+				a.agency_name,
+				a.agency_telephone
+			FROM
+				pos p,
+				store s,
+				agency a,
+				customer c
+			    <where>
+					<if test="posYear!=null and posYear !=''">
+						and p.pos_year=#{posYear}
+					</if>
+					<if test="posMonth!=null and posMonth !=''">
+						and p.pos_month=#{posMonth}
+					</if>
+					<if test="posDay!=null and posDay !=''">
+						and p.pos_day=#{posDay}
+					</if>
+					AND	s.store_num = pos_store_num
+					AND p.pos_agency_num = a.agency_num
+					AND p.pos_customer_num = c.customer_num	
+				</where> 
+	</select>
+</mapper>
