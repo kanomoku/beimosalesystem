@@ -227,13 +227,13 @@ public class ReadDateToDBServiceImpl implements ReadDateToDBService {
 			}
 			Agency angency = new Agency();
 			angency.setAgency_num(Long.valueOf(str[0]));
-			angency.setAgency_username(str[1]);
-			angency.setAgency_password(str[2]);
-			angency.setAgency_name(str[3]);
-			angency.setAgency_telephone(str[4]);
-			angency.setAgency_gender(str[5]);
-			angency.setAgency_year(str[6]);
-			angency.setAgency_month(str[7]);
+			angency.setAgency_name(str[1]);
+			angency.setAgency_telephone(str[2]);
+			angency.setAgency_gender(str[3]);
+			angency.setAgency_year(str[4]);
+			angency.setAgency_month(str[5]);
+			angency.setAgency_username(str[6]);
+			angency.setAgency_password(str[7]);
 			angency.setAgency_remark(str[8]);
 			list.add(angency);
 		}

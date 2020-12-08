@@ -8,13 +8,13 @@
 		insert ignore into agency
 		values(
 		#{agency_num},
-		#{agency_username},
-		#{agency_password},
 		#{agency_name},
 		#{agency_telephone},
 		#{agency_gender},
 		#{agency_year},
 		#{agency_month},
+		#{agency_username},
+		#{agency_password},
 		#{agency_remark})
 	</insert>
 	

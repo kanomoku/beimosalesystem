@@ -2,13 +2,13 @@ package com.pojo;
 
 public class Agency {
 	private long agency_num;
-	private String agency_username;
-	private String agency_password;
 	private String agency_name;
 	private String agency_telephone;
 	private String agency_gender;
 	private String agency_year;
 	private String agency_month;
+	private String agency_username;
+	private String agency_password;
 	private String agency_remark;
 	public long getAgency_num() {
 		return agency_num;
