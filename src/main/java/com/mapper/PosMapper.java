@@ -3,7 +3,6 @@ package com.mapper;
 import java.util.List;
 import java.util.Map;
 
-import com.pojo.Goods;
 import com.pojo.Pos;
 
 public interface PosMapper {
@@ -17,4 +16,6 @@ public interface PosMapper {
 	List<Pos> selOrderByPage(Map map);
 
 	Long selCount();
+
+	List<Pos> selAllByYearMonthDay(Map map);
 }

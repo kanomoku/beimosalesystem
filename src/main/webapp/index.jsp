@@ -41,11 +41,22 @@ td {
 <br>
 <br>
 
-<form action="posOrderShow" method="post">
-	年：<input type="text" name="posYear"/>
-	月：<input type="text" name="posMonth"/>
-	日：<input type="text" name="posDay"/>
-	<input type="submit" value="查询对应日期销售数量-降序显示"/>
+<form name="form" action="posOrderShow" method="post" onSubmit="return beforeSubmit(this);">
+	年：<input type="text" name="posYear" required="required" style="width:30px;"/>
+	月：<input type="text" name="posMonth" style="width:30px;"/>
+	日：<input type="text" name="posDay" style="width:30px;"/>
+	<input type="submit" value="查询对应日期销售数量-降序显示"/> 
+	<input type="reset" value="重置">
+</form>
+<br>
+<form action="posGoalShow" method="post">
+	年：<input type="text" name="posYear" required="required" style="width:30px;"/>
+	月：<input type="text" name="posMonth" style="width:30px;"/>
+	日：<input type="text" name="posDay" style="width:30px;"/>
+	新客户目标数日：<input type="text" name="newCustomerGoal" required="required" style="width:30px;"/>
+	拜访客户目标数：<input type="text" name="visitCustomerGoal" required="required" style="width:30px;"/>
+	<input type="submit" value="生成目标完成情况"/>
+	<input type="reset" value="重置">
 </form>
 <br>
 
