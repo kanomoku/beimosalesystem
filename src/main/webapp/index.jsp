@@ -24,28 +24,31 @@ td {
 </style>
 </head>
 
-
-<a href="/agencyShow">查询代理商负责人</a>
+<br>
+<a href="readDateToDBService.jsp">存Excel文件到DB</a>
+<br>
+<br>
+<a href="/agencyShow">查询业务员信息</a>
 <br>
 <br>
 <a href="/goodsShow">查询产品信息</a>
 <br>
 <br>
-<a href="/storeShow">查询门店信息</a> <a href="/customerShow">查询客户负责人</a>
+<a href="/storeShow">查询门店信息</a> 
 <br>
 <br>
-<a href="/posShow">查询销售记录</a>
+<a href="/customerShow">查询门店负责人</a>
 <br>
 <br>
-<a href="readDateToDBService.jsp">存Excel文件到DB</a>
+<a href="/posShow">查询全部销售订单</a>
 <br>
 <br>
-
-<form name="form" action="posOrderShow" method="post" onSubmit="return beforeSubmit(this);">
+<!-- <form name="form" action="posOrderShow" method="post" onSubmit="return beforeSubmit(this);"> -->
+<form name="form" action="posOrderShow" method="post" >
 	年：<input type="text" name="posYear" required="required" style="width:30px;"/>
 	月：<input type="text" name="posMonth" style="width:30px;"/>
 	日：<input type="text" name="posDay" style="width:30px;"/>
-	<input type="submit" value="查询对应日期销售数量-降序显示"/> 
+	<input type="submit" value="查询对应日期销售订单-降序显示"/> 
 	<input type="reset" value="重置">
 </form>
 <br>
@@ -59,5 +62,5 @@ td {
 	<input type="reset" value="重置">
 </form>
 <br>
-
+<a href="resultShowIndex.jsp">销售结果统计页</a>
 </html>
