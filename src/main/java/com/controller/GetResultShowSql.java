@@ -50,4 +50,57 @@ public class GetResultShowSql {
 		model.addAttribute("message", sb.toString());
 		return "sqlShow.jsp";
 	}
+	
+	@RequestMapping("singleOrderQuantity")
+	public String singleOrderQuantity(HttpServletRequest req,Model model){
+		
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		String posDay = req.getParameter("posDay");
+		StringBuilder sb = new StringBuilder();
+		sb.append(		"	SELECT							<br> " );
+		sb.append(		"		t.rank 排名,						<br> " );
+		sb.append(		"		pos.pos_store_num 店铺编号,						<br> " );
+		sb.append(		"		s.store_name 店铺名称,						<br> " );
+		sb.append(		"		pos.pos_quantity 拿货数量,						<br> " );
+		sb.append(		"		floor(pos.pos_quantity / 32) 箱,						<br> " );
+		sb.append(		"		mod (pos.pos_quantity, 32) 碗,						<br> " );
+		sb.append(		"		pos.pos_sale_price 门店拿货单价,						<br> " );
+		sb.append(		"		pos.pos_total_price 门店拿货总价,						<br> " );
+		sb.append(		"		pos.pos_reduced_price 门店总价优惠钱数,						<br> " );
+		sb.append(		"		pos.pos_final_price 门店优惠后总价						<br> " );
+		sb.append(		"	FROM							<br> " );
+		sb.append(		"		pos						<br> " );
+		sb.append(		"	JOIN							<br> " );
+		sb.append(		"			(					<br> " );
+		sb.append(		"			SELECT					<br> " );
+		sb.append(		"				p.pos_quantity11 pos_quantity22,				<br> " );
+		sb.append(		"				@rank :=@rank + 1 rank				<br> " );
+		sb.append(		"			FROM					<br> " );
+		sb.append(		"				(				<br> " );
+		sb.append(		"				SELECT DISTINCT				<br> " );
+		sb.append(		"					(pos_quantity) pos_quantity11			<br> " );
+		sb.append(		"				FROM				<br> " );
+		sb.append(		"					pos			<br> " );
+		sb.append(		"				WHERE				<br> " );
+		sb.append(		"					pos.pos_year = "+posYear+"<br>	" );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and pos.pos_month="+posMonth+"<br>	"	);
+		}
+		if (posDay != null && !"".equals(posDay)) {
+			sb.append("			and pos.pos_day="+posDay+"<br>	"	);
+		}
+		sb.append(		"				ORDER BY				<br> " );
+		sb.append(		"					pos_quantity11 DESC			<br> " );
+		sb.append(		"				) p,				<br> " );
+		sb.append(		"				(SELECT @rank := 0) q				<br> " );
+		sb.append(		"			) t 					<br> " );
+		sb.append(		"	ON pos.pos_quantity = t.pos_quantity22							<br> " );
+		sb.append(		"	join store s							<br> " );
+		sb.append(		"	on s.store_num=pos.pos_store_num							<br> " );
+		sb.append(		"	ORDER BY							<br> " );
+		sb.append(		"		rank ASC						<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
 }
