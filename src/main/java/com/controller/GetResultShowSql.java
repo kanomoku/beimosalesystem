@@ -103,4 +103,134 @@ public class GetResultShowSql {
 		model.addAttribute("message", sb.toString());
 		return "sqlShow.jsp";
 	}
+	@RequestMapping("avg7day")
+	public String avg7day(HttpServletRequest req,Model model){
+		
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	select 									<br> " );
+		sb.append(	"			a.visited_on '当天',							<br> " );
+		sb.append(	"			ifnull(a.totalQuantity,0) '当天往前7天销售总数',							<br> " );
+		sb.append(	"			ifnull(a.avgQuantity,0) '当天往前7天销售平均数',							<br> " );
+		sb.append(	"			ifnull(b.visited_on1,date_sub(a.visited_on,interval 1 day)) '前一天',							<br> " );
+		sb.append(	"			ifnull(b.totalQuantity1,0) '前天往前7天销售总数',							<br> " );
+		sb.append(	"			ifnull(b.avgQuantity1,0) '前天往前7天销售总数',							<br> " );
+		sb.append(	"	    CASE									<br> " );
+		sb.append(	"	        WHEN ifnull(b.totalQuantity1,0) >0									<br> " );
+		sb.append(	"	            THEN concat(ROUND((ifnull(a.totalQuantity,0) - ifnull(b.totalQuantity1,0))* 100 / ifnull(b.totalQuantity1,0), 2),'%')									<br> " );
+		sb.append(	"	        ELSE									<br> " );
+		sb.append(	"	            concat(0,'%')									<br> " );
+		sb.append(	"	    END AS '7天总量增长率',									<br> " );
+		sb.append(	"	    CASE									<br> " );
+		sb.append(	"	        WHEN ifnull(b.avgQuantity1,0) >0									<br> " );
+		sb.append(	"	            THEN concat(ROUND((ifnull(a.avgQuantity,0) - ifnull(b.avgQuantity1,0))* 100 / ifnull(b.avgQuantity1,0), 2),'%')									<br> " );
+		sb.append(	"	        ELSE									<br> " );
+		sb.append(	"	            concat(0,'%')									<br> " );
+		sb.append(	"	    END AS '7天均值增长率'									<br> " );
+		sb.append(	"	from									<br> " );
+		sb.append(	"	(									<br> " );
+		sb.append(	"		select								<br> " );
+		sb.append(	"			c1.visited_on visited_on,							<br> " );
+		sb.append(	"			sum(c2.pos_quantity) totalQuantity ,							<br> " );
+		sb.append(	"			round(avg(c2.pos_quantity), 2) avgQuantity							<br> " );
+		sb.append(	"		from 								<br> " );
+		sb.append(	"		(select date(concat(pos_year,pos_month,pos_day)) as visited_on, sum(pos_quantity) as pos_quantity								<br> " );
+		sb.append(	"						from pos				<br> " );
+		sb.append(	"						where pos_year = "+posYear+"				<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			                  and pos_month ="+posMonth+"<br>	"	);
+		}
+		sb.append(	"						group by date(concat(pos_year,pos_month,pos_day))) c1 				<br> " );
+		sb.append(	"		join 								<br> " );
+		sb.append(	"		(select date(concat(pos_year,pos_month,pos_day)) as visited_on, sum(pos_quantity) as pos_quantity								<br> " );
+		sb.append(	"						from  pos 				<br> " );
+		sb.append(	"						where pos_year = "+posYear+"				<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			                  and pos_month ="+posMonth+"<br>	"	);
+		}
+		sb.append(	"						group by date(concat(pos_year,pos_month,pos_day))) c2				<br> " );
+		sb.append(	"		on timestampdiff(day,c2.visited_on,c1.visited_on) between 0 and 6 								<br> " );
+		sb.append(	"		group by c1.visited_on								<br> " );
+		sb.append(	"		order by c1.visited_on								<br> " );
+		sb.append(	"	) a									<br> " );
+		sb.append(	"	left join									<br> " );
+		sb.append(	"	(									<br> " );
+		sb.append(	"		select								<br> " );
+		sb.append(	"			c3.visited_on visited_on1,							<br> " );
+		sb.append(	"			sum(c4.pos_quantity) totalQuantity1 ,							<br> " );
+		sb.append(	"			round(avg(c4.pos_quantity), 2) avgQuantity1							<br> " );
+		sb.append(	"		from 								<br> " );
+		sb.append(	"		(select date(concat(pos_year,pos_month,pos_day)) as visited_on, sum(pos_quantity) as pos_quantity								<br> " );
+		sb.append(	"						from pos				<br> " );
+		sb.append(	"						where pos_year = "+posYear+"				<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			                  and pos_month ="+posMonth+"<br>	"	);
+		}
+		sb.append(	"						group by date(concat(pos_year,pos_month,pos_day))) c3 				<br> " );
+		sb.append(	"		join 								<br> " );
+		sb.append(	"		(select date(concat(pos_year,pos_month,pos_day)) as visited_on, sum(pos_quantity) as pos_quantity								<br> " );
+		sb.append(	"						from  pos				<br> " );
+		sb.append(	"						where pos_year = "+posYear+"				<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			                  and pos_month ="+posMonth+"<br>	"	);
+		}
+		sb.append(	"						group by date(concat(pos_year,pos_month,pos_day))) c4				<br> " );
+		sb.append(	"		on timestampdiff(day,c4.visited_on,c3.visited_on) between 0 and 6 								<br> " );
+		sb.append(	"		group by c3.visited_on								<br> " );
+		sb.append(	"		order by c3.visited_on								<br> " );
+		sb.append(	"	) b									<br> " );
+		sb.append(	"	on timestampdiff(day,b.visited_on1,a.visited_on) =1									<br> " );
+		sb.append(	"	order by a.visited_on									<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
+	@RequestMapping("monthAdd")
+	public String monthAdd(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	SELECT		<br> " );
+		sb.append(	"		a.visited_on '当月',	<br> " );
+		sb.append(	"		ifnull(a.pos_quantity,0) '当月拿货总量',	<br> " );
+		sb.append(	"		ifnull(b.visited_on1,a.visited_on-1) '上月',	<br> " );
+		sb.append(	"		ifnull(b.pos_quantity1,0) '上月拿货总量',	<br> " );
+		sb.append(	"	    CASE		<br> " );
+		sb.append(	"	        WHEN ifnull(b.pos_quantity1,0) >0		<br> " );
+		sb.append(	"	            THEN concat(ROUND((ifnull(a.pos_quantity,0) - ifnull(b.pos_quantity1,0))* 100 / ifnull(b.pos_quantity1,0), 2),'%')		<br> " );
+		sb.append(	"	        ELSE		<br> " );
+		sb.append(	"	            concat(0,'%')		<br> " );
+		sb.append(	"	    END AS '增长率'		<br> " );
+		sb.append(	"	FROM		<br> " );
+		sb.append(	"	(select concat(pos_year,pos_month) as visited_on, sum(pos_quantity) as pos_quantity		<br> " );
+		sb.append(	"	from pos		<br> " );
+		sb.append(	"	where pos_year = "+posYear+"		<br> " );
+		sb.append(	"	group by concat(pos_year,pos_month)) a		<br> " );
+		sb.append(	"	left join		<br> " );
+		sb.append(	"	(select concat(pos_year,pos_month) as visited_on1, sum(pos_quantity) as pos_quantity1		<br> " );
+		sb.append(	"	from pos		<br> " );
+		sb.append(	"	where pos_year = 2020		<br> " );
+		sb.append(	"	group by concat(pos_year,pos_month)) b		<br> " );
+		sb.append(	"	on a.visited_on-1 = b.visited_on1		<br> " );
+		sb.append(	"	order by a.visited_on		<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	@RequestMapping("qq")
+	public String show1(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		String posDay = req.getParameter("posDay");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"			where pos.pos_year="+posYear+"<br>	"	);
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and pos.pos_month="+posMonth+"<br>	"	);
+		}
+		if (posDay != null && !"".equals(posDay)) {
+			sb.append("			and pos.pos_day="+posDay+"<br>	"	);
+		}
+		
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
 }
