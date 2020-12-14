@@ -245,6 +245,117 @@ public class GetResultShowSql {
 		model.addAttribute("message", sb.toString());
 		return "sqlShow.jsp";
 	}
+	
+	@RequestMapping("everyWeek")
+	public String everyWeek(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	select  					<br> " );
+		sb.append(	"	s.store_num 店铺番号,					<br> " );
+		sb.append(	"	s.store_name 店铺名字,					<br> " );
+		sb.append(	"	c.customer_name 门店负责人,					<br> " );
+		sb.append(	"	c.customer_telephone 门店负责人电话,					<br> " );
+		sb.append(	"	a.agency_name 业务员,					<br> " );
+		sb.append(	"	a.agency_telephone 业务员电话,					<br> " );
+		sb.append(	"		ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 2 then p.pos_quantity end),0) 周一,				<br> " );
+		sb.append(	"		ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 3 then p.pos_quantity end),0) 周二,				<br> " );
+		sb.append(	"		ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 4 then p.pos_quantity end),0) 周三,				<br> " );
+		sb.append(	"		ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 5 then p.pos_quantity end),0) 周四,				<br> " );
+		sb.append(	"		ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 6 then p.pos_quantity end),0) 周五,				<br> " );
+		sb.append(	"		ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 7 then p.pos_quantity end),0) 周六,				<br> " );
+		sb.append(	"		ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 1 then p.pos_quantity end),0) 周日				<br> " );
+		sb.append(	"	from					<br> " );
+		sb.append(	"		pos p,				<br> " );
+		sb.append(	"		agency a,				<br> " );
+		sb.append(	"		customer c,				<br> " );
+		sb.append(	"		store s				<br> " );
+		sb.append(	"			where p.pos_year="+posYear+"<br>	"	);
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		sb.append(	"	and p.pos_agency_num = a.agency_num					<br> " );
+		sb.append(	"	and p.pos_customer_num = c.customer_num					<br> " );
+		sb.append(	"	and p.pos_store_num = s.store_num					<br> " );
+		sb.append(	"	GROUP BY s.store_num;					<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
+	@RequestMapping("everyMonth")
+	public String everyMonth(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	SELECT 					<br> " );
+		sb.append(	"	s.store_num 店铺编号,					<br> " );
+		sb.append(	"	s.store_name 店铺名字,					<br> " );
+		sb.append(	"	c.customer_name 门店负责人,					<br> " );
+		sb.append(	"	c.customer_telephone 门店负责人电话,					<br> " );
+		sb.append(	"	a.agency_name 业务员,					<br> " );
+		sb.append(	"	a.agency_telephone 业务员电话,					<br> " );
+		sb.append(	"	ifnull(SUM(CASE WHEN p.pos_month='01' THEN p.pos_quantity END),0) AS 1月,					<br> " );
+		sb.append(	"	ifnull(SUM(CASE WHEN p.pos_month='02' THEN p.pos_quantity END),0) AS 2月,					<br> " );
+		sb.append(	"	ifnull(SUM(CASE WHEN p.pos_month='03' THEN p.pos_quantity END),0) AS 3月,					<br> " );
+		sb.append(	"	ifnull(SUM(CASE WHEN p.pos_month='04' THEN p.pos_quantity END),0) AS 4月,					<br> " );
+		sb.append(	"	ifnull(SUM(CASE WHEN p.pos_month='05' THEN p.pos_quantity END),0) AS 5月,					<br> " );
+		sb.append(	"	ifnull(SUM(CASE WHEN p.pos_month='06' THEN p.pos_quantity END),0) AS 6月,					<br> " );
+		sb.append(	"	ifnull(SUM(CASE WHEN p.pos_month='07' THEN p.pos_quantity END),0) AS 7月,					<br> " );
+		sb.append(	"	ifnull(SUM(CASE WHEN p.pos_month='08' THEN p.pos_quantity END),0) AS 8月,					<br> " );
+		sb.append(	"	ifnull(SUM(CASE WHEN p.pos_month='09' THEN p.pos_quantity END),0) AS 9月,					<br> " );
+		sb.append(	"	ifnull(SUM(CASE WHEN p.pos_month='10' THEN p.pos_quantity END),0) AS 10月,					<br> " );
+		sb.append(	"	ifnull(SUM(CASE WHEN p.pos_month='11' THEN p.pos_quantity END),0) AS 11月,					<br> " );
+		sb.append(	"	ifnull(SUM(CASE WHEN p.pos_month='12' THEN p.pos_quantity END),0) AS 12月					<br> " );
+		sb.append(	"	from					<br> " );
+		sb.append(	"		pos p,				<br> " );
+		sb.append(	"		agency a,				<br> " );
+		sb.append(	"		customer c,				<br> " );
+		sb.append(	"		store s				<br> " );
+		sb.append(	"	where					<br> " );
+		sb.append(	"		p.pos_year = "+posYear+"				<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		sb.append(	"	and p.pos_agency_num = a.agency_num					<br> " );
+		sb.append(	"	and p.pos_customer_num = c.customer_num					<br> " );
+		sb.append(	"	and p.pos_store_num = s.store_num					<br> " );
+		sb.append(	"	GROUP BY s.store_num;					<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
+	@RequestMapping("orderOrder")
+	public String orderOrder(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		String posDay = req.getParameter("posDay");
+		String orderOrder = req.getParameter("orderOrder");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	SELECT					<br> " );
+		sb.append(	"		IFNULL(				<br> " );
+		sb.append(	"			(			<br> " );
+		sb.append(	"				SELECT		<br> " );
+		sb.append(	"					s.store_name	<br> " );
+		sb.append(	"				FROM		<br> " );
+		sb.append(	"					pos p	<br> " );
+		sb.append(	"				RIGHT JOIN store s ON p.pos_store_num = s.store_num		<br> " );
+		sb.append(	"			where p.pos_year="+posYear+"<br>	"	);
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		if (posDay != null && !"".equals(posDay)) {
+			sb.append("			and p.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
+		}
+		sb.append(	"				ORDER BY		<br> " );
+		sb.append(	"					p.pos_quantity DESC	<br> " );
+		sb.append(	"				LIMIT 1 OFFSET "+(Integer.valueOf(orderOrder)-1)+"		<br> " );
+		sb.append(	"			),			<br> " );
+		sb.append(	"			NULL			<br> " );
+		sb.append(	"		) AS 单笔拿货排名第"+orderOrder+"名店铺的名字				<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
 	@RequestMapping("qq")
 	public String show1(HttpServletRequest req,Model model){
 		String posYear = req.getParameter("posYear");
