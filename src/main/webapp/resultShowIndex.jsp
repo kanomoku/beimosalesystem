@@ -198,6 +198,44 @@ font:hover {color: green;}
 
 <div class="box">
     <div class="img">
+        <img  src="/images/14-Dingtalk_20201214215804.jpg" alt="14" />
+    </div>
+    <ul class="list">
+        <li><span>功能:</span> <font size="4" color="#FF4500">每个门店的最高单笔拿货量(存在并列)</font></li>
+        <li><span>查询:</span>			
+        			<form name="form" action="maxQuantityPer" method="post">
+						<input type="text" name="posYear" required="required" style="width: 30px;" /> 年
+						<input type="text" name="posMonth" style="width: 30px;" /> 月
+						<input type="text" name="posDay" style="width: 30px;" /> 日,每个门店的最高单笔拿货量<br>
+						<input type="submit" value="查询" /> 
+						<input type="reset" value="重置">
+					</form>
+		</li>
+        <li><span>描述：</span><p>给定（年，年月，年月日），每个门店的最高单笔拿货量</p></li>
+    </ul>
+</div>
+
+<div class="box">
+    <div class="img">
+        <img  src="/images/15-Dingtalk_20201214223407.jpg" alt="15" />
+    </div>
+    <ul class="list">
+        <li><span>功能:</span> <font size="4" color="#FF4500">每个门店的最高单笔拿货量(并列的话取最近一笔)</font></li>
+        <li><span>查询:</span>			
+        			<form name="form" action="newMaxQuantityPer" method="post">
+						<input type="text" name="posYear" required="required" style="width: 30px;" /> 年
+						<input type="text" name="posMonth" style="width: 30px;" /> 月
+						<input type="text" name="posDay" style="width: 30px;" /> 日,每个门店的最高单笔拿货量<br>
+						<input type="submit" value="查询" /> 
+						<input type="reset" value="重置">
+					</form>
+		</li>
+        <li><span>描述：</span><p>给定（年，年月，年月日），每个门店的最高单笔拿货量</p></li>
+    </ul>
+</div>
+
+<div class="box">
+    <div class="img">
         <img style="width:400px;height:300px;" src="/images/9-Dingtalk_20201214165750.jpg" alt="9" />
     </div>
     <ul class="list">

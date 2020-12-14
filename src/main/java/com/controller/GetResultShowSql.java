@@ -541,6 +541,79 @@ public class GetResultShowSql {
 		return "sqlShow.jsp";
 	}
 	
+	@RequestMapping("maxQuantityPer")
+	public String maxQuantityPer(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		String posDay = req.getParameter("posDay");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	SELECT							<br> " );
+		sb.append(	"		p.pos_num 交易番号,						<br> " );
+		sb.append(	"		p.pos_store_num 门店番号,						<br> " );
+		sb.append(	"		s.store_name 门店名字, 						<br> " );
+		sb.append(	"		date(concat(p.pos_year,p.pos_month,p.pos_day)) 拿货日期,						<br> " );
+		sb.append(	"		p.pos_quantity 单笔最大拿货量						<br> " );
+		sb.append(	"	FROM							<br> " );
+		sb.append(	"		pos p,						<br> " );
+		sb.append(	"		store s						<br> " );
+		sb.append(	"	WHERE (p.pos_store_num,p.pos_quantity) in (							<br> " );
+		sb.append(	"		SELECT p1.pos_store_num,max(p1.pos_quantity) 						<br> " );
+		sb.append(	"		FROM pos p1 						<br> " );
+		sb.append(	"		where p1.pos_year = "+posYear+"<br>	"	);
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p1.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		if (posDay != null && !"".equals(posDay)) {
+			sb.append("			and p1.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
+		}
+		sb.append(	"		GROUP BY pos_store_num)						<br> " );
+		sb.append(	"	AND s.store_num = p.pos_store_num							<br> " );
+		sb.append(	"	ORDER BY							<br> " );
+		sb.append(	"		p.pos_store_num						<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
+	@RequestMapping("newMaxQuantityPer")
+	public String newMaxQuantityPer(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		String posDay = req.getParameter("posDay");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	SELECT							<br> " );
+		sb.append(	"		p2.pos_num 最近一笔订单编号,						<br> " );
+		sb.append(	"		p2.pos_store_num 门店番号,						<br> " );
+		sb.append(	"		s.store_name 门店名字,						<br> " );
+		sb.append(	"		date(concat(p2.pos_year,p2.pos_month,p2.pos_day)) 拿货日期,						<br> " );
+		sb.append(	"		p2.pos_quantity 最大交易数						<br> " );
+		sb.append(	"	from							<br> " );
+		sb.append(	"	(SELECT							<br> " );
+		sb.append(	"	max(p.pos_num) posNum							<br> " );
+		sb.append(	"	FROM							<br> " );
+		sb.append(	"		pos p						<br> " );
+		sb.append(	"	WHERE (p.pos_store_num,p.pos_quantity) in(							<br> " );
+		sb.append(	"				SELECT p1.pos_store_num,max(p1.pos_quantity) 				<br> " );
+		sb.append(	"				FROM pos p1 				<br> " );
+		sb.append(	"		where p1.pos_year = "+posYear+"<br>	"	);
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p1.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		if (posDay != null && !"".equals(posDay)) {
+			sb.append("			and p1.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
+		}
+		sb.append(	"				GROUP BY pos_store_num)				<br> " );
+		sb.append(	"	GROUP BY							<br> " );
+		sb.append(	"		p.pos_store_num						<br> " );
+		sb.append(	"	ORDER BY							<br> " );
+		sb.append(	"		p.pos_store_num) p1						<br> " );
+		sb.append(	"	join pos p2							<br> " );
+		sb.append(	"	on p2.pos_num = p1.posNum							<br> " );
+		sb.append(	"	join  store s							<br> " );
+		sb.append(	"	on s.store_num = p2.pos_store_num							<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
 	@RequestMapping("qq")
 	public String show1(HttpServletRequest req,Model model){
 		String posYear = req.getParameter("posYear");
