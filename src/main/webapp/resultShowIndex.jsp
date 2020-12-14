@@ -10,7 +10,7 @@
 <style>
 ul,p{margin:0;padding:0;}
 li{list-style:none;}
-.box{width:2000px;height:350px;margin:50px auto;}
+.box{width:2500px;height:350px;margin:90px auto;}
 .box .img{float:left;}
 .box .img img{width:500px;height:350px;}
 .box .list{float:left;width:500px;margin-left:50px;display:inline;}
@@ -46,7 +46,7 @@ font:hover {color: green;}
 
 <div class="box">
     <div class="img">
-        <img src="/images/58222992-2D8C-4e2e-AAF3-2FAB11117156.png" alt="2" />
+        <img style="width:1000px;height:400px;" src="/images/58222992-2D8C-4e2e-AAF3-2FAB11117156.png" alt="2" />
     </div>
     <ul class="list">
         <li><span>功能:</span> <font size="4" color="#FF4500">订单单笔拿货数量排名（存在并列）</font></li>
@@ -65,7 +65,7 @@ font:hover {color: green;}
 
 <div class="box">
     <div class="img">
-        <img src="/images/C447D3F6-1E95-452e-8962-C0516E204F25.png" alt="3" />
+        <img style="width:1000px;height:400px;" src="/images/3-Dingtalk_20201214135515.jpg" alt="3" />
     </div>
     <ul class="list">
         <li><span>功能:</span> <font size="4" color="#FF4500">销售数量7天变化增长</font></li>
@@ -79,10 +79,14 @@ font:hover {color: green;}
 		</li>
         <li><span>描述：</span><p>根据输入的项目，以 7 天（某日期 + 该日期前的 6 天）为一个时间段，查询对应（年，年月）门店  7天拿货总量，7天拿货平均量，7天拿货总量的增量，7天拿货平均量的增量</p></li>
     </ul>
+        <div class="img">
+        <img src="/images/C447D3F6-1E95-452e-8962-C0516E204F25.png" alt="3" />
+    </div>
 </div>
 
 <div class="box">
     <div class="img">
+        <img src="/images/4-Dingtalk_20201214135858.jpg" alt="4" />
         <img src="/images/4D0D1532-48AB-4836-9588-404D1553376B.png" alt="4" />
     </div>
     <ul class="list">
@@ -95,6 +99,25 @@ font:hover {color: green;}
 					</form>
 		</li>
         <li><span>描述：</span><p>按月分析增长变化情况</p></li>
+    </ul>
+</div>
+
+<div class="box">
+    <div class="img">
+        <img src="/images/5-Dingtalk_20201214140910.jpg" alt="5" />
+    </div>
+    <ul class="list">
+        <li><span>功能:</span> <font size="4" color="#FF4500">按日期分组拿货店铺</font></li>
+        <li><span>查询:</span>			
+        			<form name="form" action="groupStore" method="post">
+						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
+						月：<input type="text" name="posMonth" style="width: 30px;" /> 
+						日：<input type="text" name="posDay" style="width: 30px;" /> 
+						<input type="submit" value="查询" /> 
+						<input type="reset" value="重置">
+					</form>
+		</li>
+        <li><span>描述：</span><p>给点（年，年月，年月日），查询铺了多少家店，以及每个店的名字是啥;</p></li>
     </ul>
 </div>
 </body>

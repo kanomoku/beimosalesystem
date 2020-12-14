@@ -29,10 +29,10 @@ public class GetResultShowSql {
 		sb.append(	"			from pos				<br>	"	);
 		sb.append(	"			where pos.pos_year="+posYear+"<br>	"	);
 		if (posMonth != null && !"".equals(posMonth)) {
-			sb.append("			and pos.pos_month="+posMonth+"<br>	"	);
+			sb.append("			and pos.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
 		}
 		if (posDay != null && !"".equals(posDay)) {
-			sb.append("			and pos.pos_day="+posDay+"<br>	"	);
+			sb.append("			and pos.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
 		}
 		sb.append(	"			group by bin				<br>	"	);
 		sb.append(	"			)derived1				<br>	"	);
@@ -85,10 +85,10 @@ public class GetResultShowSql {
 		sb.append(		"				WHERE				<br> " );
 		sb.append(		"					pos.pos_year = "+posYear+"<br>	" );
 		if (posMonth != null && !"".equals(posMonth)) {
-			sb.append("			and pos.pos_month="+posMonth+"<br>	"	);
+			sb.append("			and pos.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
 		}
 		if (posDay != null && !"".equals(posDay)) {
-			sb.append("			and pos.pos_day="+posDay+"<br>	"	);
+			sb.append("			and pos.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
 		}
 		sb.append(		"				ORDER BY				<br> " );
 		sb.append(		"					pos_quantity11 DESC			<br> " );
@@ -115,7 +115,7 @@ public class GetResultShowSql {
 		sb.append(	"			ifnull(a.avgQuantity,0) '当天往前7天销售平均数',							<br> " );
 		sb.append(	"			ifnull(b.visited_on1,date_sub(a.visited_on,interval 1 day)) '前一天',							<br> " );
 		sb.append(	"			ifnull(b.totalQuantity1,0) '前天往前7天销售总数',							<br> " );
-		sb.append(	"			ifnull(b.avgQuantity1,0) '前天往前7天销售总数',							<br> " );
+		sb.append(	"			ifnull(b.avgQuantity1,0) '前天往前7天销售平均数',							<br> " );
 		sb.append(	"	    CASE									<br> " );
 		sb.append(	"	        WHEN ifnull(b.totalQuantity1,0) >0									<br> " );
 		sb.append(	"	            THEN concat(ROUND((ifnull(a.totalQuantity,0) - ifnull(b.totalQuantity1,0))* 100 / ifnull(b.totalQuantity1,0), 2),'%')									<br> " );
@@ -139,7 +139,7 @@ public class GetResultShowSql {
 		sb.append(	"						from pos				<br> " );
 		sb.append(	"						where pos_year = "+posYear+"				<br> " );
 		if (posMonth != null && !"".equals(posMonth)) {
-			sb.append("			                  and pos_month ="+posMonth+"<br>	"	);
+			sb.append("			                  and pos_month ="+getZeroMonthDay(posMonth)+"<br>	"	);
 		}
 		sb.append(	"						group by date(concat(pos_year,pos_month,pos_day))) c1 				<br> " );
 		sb.append(	"		join 								<br> " );
@@ -147,7 +147,7 @@ public class GetResultShowSql {
 		sb.append(	"						from  pos 				<br> " );
 		sb.append(	"						where pos_year = "+posYear+"				<br> " );
 		if (posMonth != null && !"".equals(posMonth)) {
-			sb.append("			                  and pos_month ="+posMonth+"<br>	"	);
+			sb.append("			                  and pos_month ="+getZeroMonthDay(posMonth)+"<br>	"	);
 		}
 		sb.append(	"						group by date(concat(pos_year,pos_month,pos_day))) c2				<br> " );
 		sb.append(	"		on timestampdiff(day,c2.visited_on,c1.visited_on) between 0 and 6 								<br> " );
@@ -165,7 +165,7 @@ public class GetResultShowSql {
 		sb.append(	"						from pos				<br> " );
 		sb.append(	"						where pos_year = "+posYear+"				<br> " );
 		if (posMonth != null && !"".equals(posMonth)) {
-			sb.append("			                  and pos_month ="+posMonth+"<br>	"	);
+			sb.append("			                  and pos_month ="+getZeroMonthDay(posMonth)+"<br>	"	);
 		}
 		sb.append(	"						group by date(concat(pos_year,pos_month,pos_day))) c3 				<br> " );
 		sb.append(	"		join 								<br> " );
@@ -173,7 +173,7 @@ public class GetResultShowSql {
 		sb.append(	"						from  pos				<br> " );
 		sb.append(	"						where pos_year = "+posYear+"				<br> " );
 		if (posMonth != null && !"".equals(posMonth)) {
-			sb.append("			                  and pos_month ="+posMonth+"<br>	"	);
+			sb.append("			                  and pos_month ="+getZeroMonthDay(posMonth)+"<br>	"	);
 		}
 		sb.append(	"						group by date(concat(pos_year,pos_month,pos_day))) c4				<br> " );
 		sb.append(	"		on timestampdiff(day,c4.visited_on,c3.visited_on) between 0 and 6 								<br> " );
@@ -216,6 +216,35 @@ public class GetResultShowSql {
 		model.addAttribute("message", sb.toString());
 		return "sqlShow.jsp";
 	}
+	@RequestMapping("groupStore")
+	public String groupStore(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		String posDay = req.getParameter("posDay");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	select		<br> " );
+		sb.append(	"		concat(p.pos_year, p.pos_month,p.pos_day) 日期,	<br> " );
+		sb.append(	"		count(distinct pos_store_num) as 当天拿货店铺数量,	<br> " );
+		sb.append(	"		group_concat(distinct s.store_name) as 当天拿货店铺名字统计	<br> " );
+		sb.append(	"	from		<br> " );
+		sb.append(	"		pos p,	<br> " );
+		sb.append(	"		store s	<br> " );
+		sb.append(	"	where		<br> " );
+		sb.append(	"		p.pos_store_num = s.store_num	<br> " );
+		sb.append(	"	and p.pos_year = "+posYear+"		<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p.pos_month ="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		if (posDay != null && !"".equals(posDay)) {
+			sb.append("			and p.pos_day = "+getZeroMonthDay(posDay)+"<br>	"	);
+		}
+		sb.append(	"	group by		<br> " );
+		sb.append(	"		concat(p.pos_year, p.pos_month,p.pos_day)	<br> " );
+		sb.append(	"	order by		<br> " );
+		sb.append(	"		concat(p.pos_year, p.pos_month,p.pos_day);	<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
 	@RequestMapping("qq")
 	public String show1(HttpServletRequest req,Model model){
 		String posYear = req.getParameter("posYear");
@@ -224,13 +253,36 @@ public class GetResultShowSql {
 		StringBuilder sb = new StringBuilder();
 		sb.append(	"			where pos.pos_year="+posYear+"<br>	"	);
 		if (posMonth != null && !"".equals(posMonth)) {
-			sb.append("			and pos.pos_month="+posMonth+"<br>	"	);
+			sb.append("			and pos.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
 		}
 		if (posDay != null && !"".equals(posDay)) {
-			sb.append("			and pos.pos_day="+posDay+"<br>	"	);
+			sb.append("			and pos.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
 		}
 		
 		model.addAttribute("message", sb.toString());
 		return "sqlShow.jsp";
+	}
+	
+	public String getZeroMonthDay(String str) {
+		if ("1".equals(str)) {
+			return "01";
+		} else if ("2".equals(str)) {
+			return "03";
+		} else if ("3".equals(str)) {
+			return "03";
+		} else if ("4".equals(str)) {
+			return "04";
+		} else if ("5".equals(str)) {
+			return "05";
+		} else if ("6".equals(str)) {
+			return "06";
+		} else if ("7".equals(str)) {
+			return "07";
+		} else if ("8".equals(str)) {
+			return "08";
+		} else if ("9".equals(str)) {
+			return "09";
+		}
+		return str;
 	}
 }
