@@ -19,14 +19,15 @@ li{list-style:none;}
 
 a:hover {color: red;}
 font:hover {color: green;}
+
 </style>
 </head>
  
 <body>
 <div class="box">
     <div class="img">
-        <img src="/images/089FA8D7-390F-4c2f-809D-5C44D1DBBE35.png" alt="1" />
-        <img src="/images/089FA8D7-390F-4c2f-809D-5C44D1DBBE35.png" alt="1" />
+        <img src="/images/1-9D99F89A-7F5A-487f-BB54-240E7D84310A.png" alt="1" />
+        <img src="/images/1-5F2E85E5-C518-41ff-A799-BD4C36995F43.png" alt="1" />
     </div>
     <ul class="list">
         <li><span>功能:</span> <font size="4" color="#FF4500">订单笔数柱状图</font></li>
