@@ -356,6 +356,191 @@ public class GetResultShowSql {
 		return "sqlShow.jsp";
 	}
 	
+	@RequestMapping("newStore")
+	public String newStore(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		String posDay = req.getParameter("posDay");
+		String dateStr = posYear+"-"+getZeroMonthDay(posMonth)+"-"+getZeroMonthDay(posDay);
+		String storeTotalStr = req.getParameter("storeTotal");
+		Integer storeTotal = 0;
+		if (storeTotal != null && !"".equals(storeTotalStr)) {
+			storeTotal = Integer.valueOf(storeTotalStr);
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	SELECT					<br> " );
+		sb.append(	"		datedate 日期,				<br> " );
+		sb.append(	"		count(pos_store_num) 新增门店的数量,				<br> " );
+		sb.append(	"		group_concat(DISTINCT s.store_name) 新增门店的名字				<br> " );
+		sb.append(	"	from					<br> " );
+		sb.append(	"	(					<br> " );
+		sb.append(	"	select date(concat(p.pos_year,p.pos_month,p.pos_day)) datedate,p.pos_store_num,p.pos_visit					<br> " );
+		sb.append(	"	from pos p					<br> " );
+		sb.append(	"	where p.pos_visit = '新增客户'					<br> " );
+		sb.append(	"	and datediff('"+dateStr+"',date(concat(p.pos_year,p.pos_month,p.pos_day)))  BETWEEN 0 and "+storeTotal+"				<br> " );
+		sb.append(	"	) a					<br> " );
+		sb.append(	"	join store s					<br> " );
+		sb.append(	"	on s.store_num = a.pos_store_num					<br> " );
+		sb.append(	"	group by datedate					<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
+	@RequestMapping("storeTotalAndPercent")
+	public String storeTotalAndPercent(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		String posDay = req.getParameter("posDay");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	SELECT					<br> " );
+		sb.append(	"		p.pos_store_num 店铺番号,				<br> " );
+		sb.append(	"		s.store_name 店铺名字,				<br> " );
+		sb.append(	"		SUM(pos_quantity) 拿货总数,				<br> " );
+		sb.append(	"		count(*) 拿货总回数,				<br> " );
+		sb.append(	"		ROUND(AVG(pos_quantity), 2) 平均拿货数,				<br> " );
+		sb.append(	"		SUM(IF(p.pos_quantity <= 32, 1, 0)) 一箱以内拿货回数,				<br> " );
+		sb.append(	"		SUM(IF( 32 < p.pos_quantity and p.pos_quantity <= 64, 1, 0)) 一箱到两箱拿货回数,				<br> " );
+		sb.append(	"		SUM(IF(p.pos_quantity > 64, 1, 0)) 两项以上拿货回数,				<br> " );
+		sb.append(	"	  concat(ROUND(SUM(IF(p.pos_quantity  <= 32, 1, 0)) * 100 / count(*), 2),'%') 一箱以内占比,					<br> " );
+		sb.append(	"	  concat(ROUND(SUM(IF( 32 < p.pos_quantity and p.pos_quantity <= 64, 1, 0)) * 100 / count(*), 2),'%') 一箱到两箱占比,					<br> " );
+		sb.append(	"	  concat(ROUND(SUM(IF(p.pos_quantity > 64, 1, 0)) * 100 / count(*), 2),'%') 两箱以上占比					<br> " );
+		sb.append(	"	FROM					<br> " );
+		sb.append(	"		pos p,store s				<br> " );
+		sb.append(	"	WHERE					<br> " );
+		sb.append(	"		p.pos_store_num = s.store_num				<br> " );
+		sb.append(	"	AND p.pos_year = "+posYear+"					<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		if (posDay != null && !"".equals(posDay)) {
+			sb.append("			and p.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
+		}
+		sb.append(	"						<br> " );
+		sb.append(	"	GROUP BY					<br> " );
+		sb.append(	"		p.pos_store_num				<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
+	@RequestMapping("middleNumber")
+	public String middleNumber(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	SELECT					<br> " );
+		sb.append(	"		t.pos_num 销售番号,				<br> " );
+		sb.append(	"		t.pos_store_num 门店番号,				<br> " );
+		sb.append(	"		s.store_name 门店名字,				<br> " );
+		sb.append(	"		t.rank 排序,				<br> " );
+		sb.append(	"		t.pos_quantity 单笔拿货中位数,				<br> " );
+		sb.append(	"		t.totalcount 拿货回数				<br> " );
+		sb.append(	"	from					<br> " );
+		sb.append(	"	(select Ranking.pos_num,					<br> " );
+		sb.append(	"	        Ranking.pos_store_num,					<br> " );
+		sb.append(	"	        Ranking.pos_quantity,					<br> " );
+		sb.append(	"					Ranking.rank,	<br> " );
+		sb.append(	"					StoreCount.totalcount,	<br> " );
+		sb.append(	"					StoreCount.store_num	<br> " );
+		sb.append(	"	from					<br> " );
+		sb.append(	"	(SELECT 					<br> " );
+		sb.append(	"	        p.pos_num,					<br> " );
+		sb.append(	"	        p.pos_store_num,					<br> " );
+		sb.append(	"	        p.pos_quantity,					<br> " );
+		sb.append(	"	        IF(@prev = p.pos_store_num, @Rank:=@Rank + 1, @Rank:=1) AS rank,					<br> " );
+		sb.append(	"	        @prev:=p.pos_store_num					<br> " );
+		sb.append(	"	    FROM					<br> " );
+		sb.append(	"	        pos p, (SELECT @Rank:=0, @prev:=0) AS temp					<br> " );
+		sb.append(	"	where p.pos_year = "+posYear+"					<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		sb.append(	"	ORDER BY p.pos_store_num , p.pos_quantity , p.pos_num) Ranking					<br> " );
+		sb.append(	"	INNER JOIN					<br> " );
+		sb.append(	"	(SELECT 					<br> " );
+		sb.append(	"	        COUNT(*) AS totalcount, p2.pos_store_num AS store_num					<br> " );
+		sb.append(	"	    FROM					<br> " );
+		sb.append(	"	        pos p2					<br> " );
+		sb.append(	"		where p2.pos_year = "+posYear+"				<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p2.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		sb.append(	"	    GROUP BY p2.pos_store_num) StoreCount 					<br> " );
+		sb.append(	"	ON StoreCount.store_num = Ranking.pos_store_num					<br> " );
+		sb.append(	"	where					<br> " );
+		sb.append(	"	 Rank = FLOOR((totalcount + 1) / 2)					<br> " );
+		sb.append(	"	        OR Rank = FLOOR((totalcount + 2) / 2)) t,					<br> " );
+		sb.append(	"	store s					<br> " );
+		sb.append(	"	where t.pos_store_num = s.store_num					<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
+	@RequestMapping("usuallyOrder")
+	public String usuallyOrder(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		String posDay = req.getParameter("posDay");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	SELECT							<br> " );
+		sb.append(	"		t2.pos_store_num 门店番号,						<br> " );
+		sb.append(	"		s.store_name 门店名字,						<br> " );
+		sb.append(	"		t3.pos_goods_num 商品编号,						<br> " );
+		sb.append(	"		g.goods_name 商品名字,						<br> " );
+		sb.append(	"	  t2.freq 拿货回数							<br> " );
+		sb.append(	"	from							<br> " );
+		sb.append(	"		(						<br> " );
+		sb.append(	"			select t1.pos_store_num,max(t1.cnt) freq					<br> " );
+		sb.append(	"			from 					<br> " );
+		sb.append(	"				(select pos_store_num,pos_goods_num,count(pos_num) cnt from pos where 				<br> " );
+		sb.append(	"					pos_year =  "+posYear+"  			<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		if (posDay != null && !"".equals(posDay)) {
+			sb.append("			and pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
+		}
+		sb.append(	"					group by pos_store_num,pos_goods_num) t1			<br> " );
+		sb.append(	"			group by t1.pos_store_num					<br> " );
+		sb.append(	"		) t2 						<br> " );
+		sb.append(	"		join 						<br> " );
+		sb.append(	"		( 						<br> " );
+		sb.append(	"			select pos_store_num,pos_goods_num,count(pos_num) cnt from pos 					<br> " );
+		sb.append(	"						where pos_year = "+posYear+" 		<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		if (posDay != null && !"".equals(posDay)) {
+			sb.append("			and pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
+		}
+		sb.append(	"						group by pos_store_num,pos_goods_num 		<br> " );
+		sb.append(	"		) t3						<br> " );
+		sb.append(	"	  on t2.pos_store_num=t3.pos_store_num and t2.freq=t3.cnt 							<br> " );
+		sb.append(	"		join goods g						<br> " );
+		sb.append(	"		on g.goods_num=t3.pos_goods_num						<br> " );
+		sb.append(	"	  join store s 							<br> " );
+		sb.append(	"	  on s.store_num=t2.pos_store_num							<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
+	@RequestMapping("monthOrderCustomer")
+	public String monthOrderCustomer(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	SELECT							<br> " );
+		sb.append(	"		concat(p.pos_year, p.pos_month) 月份,						<br> " );
+		sb.append(	"		count(pos_num)  成交笔数,						<br> " );
+		sb.append(	"		count(DISTINCT pos_store_num) 门店数量 ,						<br> " );
+		sb.append(	"		SUM(p.pos_quantity) 拿货数量						<br> " );
+		sb.append(	"	FROM							<br> " );
+		sb.append(	"		pos p						<br> " );
+		sb.append(	"	where p.pos_year = "+posYear+"							<br> " );
+		sb.append(	"	GROUP BY							<br> " );
+		sb.append(	"		concat(p.pos_year, p.pos_month)						<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
 	@RequestMapping("qq")
 	public String show1(HttpServletRequest req,Model model){
 		String posYear = req.getParameter("posYear");
