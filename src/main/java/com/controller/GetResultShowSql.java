@@ -802,6 +802,35 @@ public class GetResultShowSql {
 		return "sqlShow.jsp";
 	}
 	
+	@RequestMapping("likeSearch")
+	public String likeSearch(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		String posDay = req.getParameter("posDay");
+		String likeName = req.getParameter("likeName");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	SELECT DISTINCT															<br> " );
+		sb.append(	"		s.*														<br> " );
+		sb.append(	"	FROM															<br> " );
+		sb.append(	"		store s,														<br> " );
+		sb.append(	"		pos p														<br> " );
+		sb.append(	"	WHERE															<br> " );
+		sb.append(	"		s.store_num = p.pos_store_num														<br> " );
+		if (posYear != null && !"".equals(posYear)) {
+			sb.append(	"			and p.pos_year="+posYear+"<br>	"	);
+		}
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		if (posDay != null && !"".equals(posDay)) {
+			sb.append("			and p.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
+		}
+		sb.append(	"																<br> " );
+		sb.append(	"	AND s.store_name LIKE '%"+likeName+"%';															<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
 	@RequestMapping("qq")
 	public String show1(HttpServletRequest req,Model model){
 		String posYear = req.getParameter("posYear");

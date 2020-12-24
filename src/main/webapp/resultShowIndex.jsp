@@ -388,6 +388,26 @@ font:hover {color: green;}
     </ul>
 </div>
 
+<div class="box">
+    <div class="img">
+        <img style="width:600px;height:300px;" src="/images/20-Dingtalk_20201224201939.jpg" alt="20" />
+    </div>
+    <ul class="list">
+        <li><span>功能:</span> <font size="4" color="#FF4500">拿了货的店铺名字模糊查询</font></li>
+        <li><span>查询:</span>			
+        			<form name="form" action="likeSearch" method="post">
+						<input type="text" name="posYear"  style="width: 30px;" /> 年
+						<input type="text" name="posMonth"  style="width: 30px;" /> 月
+						<input type="text" name="posDay"  style="width: 30px;" /> 日，拿了货的名字有
+						<input type="text" name="likeName" required="required" style="width: 50px;" />的店铺<br>
+						<input type="submit" value="查询" /> 
+						<input type="reset" value="重置">
+					</form>
+		</li>
+        <li><span>描述：</span><p>根据输入的项目，查询对应（年，年月，年月日），拿了货的店铺名字模糊查询</p></li>
+    </ul>
+</div>
+
 </body>
 
 <br>
