@@ -754,6 +754,54 @@ public class GetResultShowSql {
 		return "sqlShow.jsp";
 	}
 	
+	@RequestMapping("quantityMoreThan")
+	public String quantityMoreThan(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		String posDay = req.getParameter("posDay");
+		String moreThanSome = req.getParameter("moreThanSome");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	SELECT DISTINCT															<br> " );
+		sb.append(	"		s.store_num 店铺番号,														<br> " );
+		sb.append(	"		s.store_name 店铺名字,														<br> " );
+		sb.append(	"		c.customer_name 店铺负责人,														<br> " );
+		sb.append(	"		c.customer_telephone 店铺负责人电话,														<br> " );
+		sb.append(	"	  a.agency_name 店铺对应业务员,															<br> " );
+		sb.append(	"	  a.agency_telephone 店铺对应业务员电话,															<br> " );
+		if (posDay != null && !"".equals(posDay)&&posMonth != null && !"".equals(posMonth)) {
+			sb.append(	"		date(concat(p.pos_year,p.pos_month,p.pos_day)) 日期,														<br> " );
+		} else if (posMonth != null && !"".equals(posMonth)) {
+			sb.append(	"		concat(p.pos_year,p.pos_month) 日期,														<br> " );
+		} else {
+			sb.append(	"		p.pos_year 日期,														<br> " );
+		}
+		sb.append(	"		SUM(p.pos_quantity) 店铺总拿货数,														<br> " );
+		sb.append(	"		floor(sum(p.pos_quantity) / 32) 箱,														<br> " );
+		sb.append(	"		MOD (sum(p.pos_quantity), 32) 碗														<br> " );
+		sb.append(	"	FROM															<br> " );
+		sb.append(	"		store s,														<br> " );
+		sb.append(	"		pos p,														<br> " );
+		sb.append(	"	  customer c,															<br> " );
+		sb.append(	"		agency a														<br> " );
+		sb.append(	"	WHERE															<br> " );
+		sb.append(	"		s.store_num = p.pos_store_num														<br> " );
+		sb.append(	"	and s.store_customer_num=c.customer_num															<br> " );
+		sb.append(	"	and s.store_agency_num = a.agency_num															<br> " );
+		sb.append(	"	AND p.pos_year = "+posYear+"														<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		if (posDay != null && !"".equals(posDay)) {
+			sb.append("			and p.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
+		}
+		sb.append(	"	GROUP BY															<br> " );
+		sb.append(	"		s.store_num														<br> " );
+		sb.append(	"	HAVING															<br> " );
+		sb.append(	"		店铺总拿货数 > "+moreThanSome+"														<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
 	@RequestMapping("qq")
 	public String show1(HttpServletRequest req,Model model){
 		String posYear = req.getParameter("posYear");

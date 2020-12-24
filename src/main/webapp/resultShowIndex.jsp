@@ -368,6 +368,26 @@ font:hover {color: green;}
     </ul>
 </div>
 
+<div class="box">
+    <div class="img">
+        <img style="width:600px;height:300px;" src="/images/19-Dingtalk_20201224185108.jpg" alt="19" />
+    </div>
+    <ul class="list">
+        <li><span>功能:</span> <font size="4" color="#FF4500">拿货总量超过N碗的店铺</font></li>
+        <li><span>查询:</span>			
+        			<form name="form" action="quantityMoreThan" method="post">
+						<input type="text" name="posYear" required="required" style="width: 30px;" /> 年
+						<input type="text" name="posMonth"  style="width: 30px;" /> 月
+						<input type="text" name="posDay"  style="width: 30px;" /> 日，拿货超过
+						<input type="text" name="moreThanSome" required="required" style="width: 30px;" />碗的店铺<br>
+						<input type="submit" value="查询" /> 
+						<input type="reset" value="重置">
+					</form>
+		</li>
+        <li><span>描述：</span><p>根据输入的项目，查询对应（年，年月，年月日），拿货超过N碗的店铺</p></li>
+    </ul>
+</div>
+
 </body>
 
 <br>
