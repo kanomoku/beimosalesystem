@@ -408,6 +408,25 @@ font:hover {color: green;}
     </ul>
 </div>
 
+<div class="box">
+    <div class="img">
+        <img style="width:600px;height:300px;" src="/images/21-Dingtalk_20201224204500.jpg" alt="21" />
+    </div>
+    <ul class="list">
+        <li><span>功能:</span> <font size="4" color="#FF4500">没有拿货的店铺</font></li>
+        <li><span>查询:</span>			
+        			<form name="form" action="noBuyGoods" method="post">
+						<input type="text" name="posYear" required="required" style="width: 30px;" /> 年
+						<input type="text" name="posMonth"  style="width: 30px;" /> 月
+						<input type="text" name="posDay"  style="width: 30px;" /> 日，没有拿货的店铺<br>
+						<input type="submit" value="查询" /> 
+						<input type="reset" value="重置">
+					</form>
+		</li>
+        <li><span>描述：</span><p>根据输入的项目，查询对应（年，年月，年月日），没有拿货的店铺</p></li>
+    </ul>
+</div>
+
 </body>
 
 <br>

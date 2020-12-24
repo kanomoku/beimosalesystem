@@ -831,6 +831,51 @@ public class GetResultShowSql {
 		return "sqlShow.jsp";
 	}
 	
+	@RequestMapping("noBuyGoods")
+	public String noBuyGoods(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		String posDay = req.getParameter("posDay");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	SELECT															<br> " );
+		sb.append(	"		s.store_num 店铺番号,														<br> " );
+		sb.append(	"		s.store_name 店铺名字,														<br> " );
+		if (posDay != null && !"".equals(posDay)&&posMonth != null && !"".equals(posMonth)) {
+			sb.append(	"		concat_ws('-', "+posYear+","+getZeroMonthDay(posMonth)+","+getZeroMonthDay(posDay)+") 日期,														<br> " );
+		} else if (posMonth != null && !"".equals(posMonth)) {
+			sb.append(	"		concat_ws('-',"+posYear+","+getZeroMonthDay(posMonth)+") 日期,														<br> " );
+		} else {
+			sb.append(	"		"+posYear+" 日期,														<br> " );
+		}
+		sb.append(	"		c.customer_name 店铺负责人,														<br> " );
+		sb.append(	"		c.customer_telephone 店铺负责人电话,														<br> " );
+		sb.append(	"		a.agency_name 店铺对应业务员,														<br> " );
+		sb.append(	"		a.agency_telephone 店铺对应业务员电话														<br> " );
+		sb.append(	"	FROM															<br> " );
+		sb.append(	"		store s,														<br> " );
+		sb.append(	"		customer c,														<br> " );
+		sb.append(	"		agency a														<br> " );
+		sb.append(	"	WHERE															<br> " );
+		sb.append(	"		s.store_num NOT IN (														<br> " );
+		sb.append(	"			SELECT DISTINCT													<br> " );
+		sb.append(	"				p1.pos_store_num												<br> " );
+		sb.append(	"			FROM													<br> " );
+		sb.append(	"				pos p1												<br> " );
+		sb.append(	"			WHERE													<br> " );
+		sb.append(	"				p1.pos_year = "+posYear+"												<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p1.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		if (posDay != null && !"".equals(posDay)) {
+			sb.append("			and p1.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
+		}
+		sb.append(	"		)														<br> " );
+		sb.append(	"	AND s.store_customer_num = c.customer_num															<br> " );
+		sb.append(	"	AND s.store_agency_num = a.agency_num															<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
 	@RequestMapping("qq")
 	public String show1(HttpServletRequest req,Model model){
 		String posYear = req.getParameter("posYear");
