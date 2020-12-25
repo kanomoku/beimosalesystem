@@ -1094,6 +1094,70 @@ public class GetResultShowSql {
 		return "sqlShow.jsp";
 	}
 	
+	@RequestMapping("storeEarn")
+	public String storeEarn(HttpServletRequest req,Model model){
+
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		String posDay = req.getParameter("posDay");
+		String countPerBin = req.getParameter("countPerBin");
+		String storeCost = req.getParameter("storeCost");
+		String storeSale = req.getParameter("storeSale");
+		String parterCost = req.getParameter("parterCost");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	select															<br> " );
+		sb.append(	"		s.store_num 门店番号,														<br> " );
+		sb.append(	"		s.store_name 门店名字,														<br> " );
+		if (posDay != null && !"".equals(posDay)&&posMonth != null && !"".equals(posMonth)) {
+			sb.append(	"		date(concat(p.pos_year,p.pos_month,p.pos_day)) 日期,														<br> " );
+		} else if (posMonth != null && !"".equals(posMonth)) {
+			sb.append(	"		concat(p.pos_year,p.pos_month) 日期,														<br> " );
+		} else {
+			sb.append(	"		p.pos_year 日期,														<br> " );
+		}		sb.append(	"		sum(p.pos_quantity) 门店拿货数量,														<br> " );
+		sb.append(	"		floor(sum(p.pos_quantity) / "+countPerBin+") 箱,														<br> " );
+		sb.append(	"		mod (sum(p.pos_quantity), "+countPerBin+") 碗,														<br> " );
+		sb.append(	"		sum(p.pos_total_price) 门店拿货总价钱, # 从销售数据Excel 中读取														<br> " );
+		sb.append(	"		sum(p.pos_quantity) * ("+storeCost+") 门店拿货总价钱校验,														<br> " );
+		sb.append(	"		sum(p.pos_reduced_price) 门店优惠减免的价钱, # 从销售数据Excel 中读取														<br> " );
+		sb.append(	"		sum(p.pos_final_price) 门店拿货最终价钱, # 从销售数据Excel 中读取														<br> " );
+		sb.append(	"	  sum(p.pos_quantity) * ("+storeCost+") - sum(p.pos_reduced_price) 门店拿货最终价钱校验,#门店拿货总价钱 - 门店优惠减免的价钱															<br> " );
+		sb.append(	"		sum(p.pos_quantity) * ("+storeSale+") 门店营业额,														<br> " );
+		sb.append(	"	  sum(p.pos_quantity) * ("+storeSale+")- sum(p.pos_quantity) * ("+storeCost+") 门店理论赚, #门店营业额 - 门店拿货总价钱															<br> " );
+		sb.append(	"		sum(p.pos_quantity) * ("+storeSale+")- sum(p.pos_final_price) 门店实际赚, # 门店营业额 - 门店拿货最终价钱														<br> " );
+		sb.append(	"		sum(p.pos_quantity) * ("+parterCost+" / "+countPerBin+") 合伙人成本,														<br> " );
+		sb.append(	"		sum(p.pos_quantity) * ("+storeCost+" -("+parterCost+" / "+countPerBin+")) 理论我赚,														<br> " );
+		sb.append(	"		sum(p.pos_final_price) - sum(p.pos_quantity) * ("+parterCost+" / "+countPerBin+") 实际我赚, #门店拿货最终价钱 - 合伙人成本														<br> " );
+		sb.append(	"		round(((sum(p.pos_quantity) * ("+storeSale+")- sum(p.pos_quantity) * ("+storeCost+"))/(sum(p.pos_quantity) * ("+storeCost+" -("+parterCost+" / "+countPerBin+")))),2) \"理论 门店赚/我赚 倍数\",														<br> " );
+		sb.append(	"		round(((sum(p.pos_quantity) * ("+storeSale+")- sum(p.pos_final_price))/(sum(p.pos_final_price) - sum(p.pos_quantity) * ("+parterCost+" / "+countPerBin+"))),2) \"实际 门店赚/我赚 倍数\",														<br> " );
+		sb.append(	"		c.customer_name 门店负责人,														<br> " );
+		sb.append(	"		c.customer_telephone 门店负责人电话,														<br> " );
+		sb.append(	"		a.agency_name 业务员,														<br> " );
+		sb.append(	"		a.agency_telephone 业务员电话														<br> " );
+		sb.append(	"	from															<br> " );
+		sb.append(	"		pos p,														<br> " );
+		sb.append(	"		agency a,														<br> " );
+		sb.append(	"		customer c,														<br> " );
+		sb.append(	"		store s														<br> " );
+		sb.append(	"	where															<br> " );
+		sb.append(	"		p.pos_year = "+posYear+"														<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		if (posDay != null && !"".equals(posDay)) {
+			sb.append("			and p.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
+		}		sb.append(	"	and p.pos_agency_num = a.agency_num															<br> " );
+		sb.append(	"	and p.pos_customer_num = c.customer_num															<br> " );
+		sb.append(	"	and p.pos_store_num = s.store_num															<br> " );
+		sb.append(	"	group by															<br> " );
+		sb.append(	"		p.pos_store_num														<br> " );
+		sb.append(	"	order by															<br> " );
+		sb.append(	"		sum(p.pos_final_price) - sum(p.pos_quantity) * ("+parterCost+" / "+countPerBin+") desc #实际我赚														<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	
+	}
+	
 	@RequestMapping("qq")
 	public String show1(HttpServletRequest req,Model model){
 		String posYear = req.getParameter("posYear");
