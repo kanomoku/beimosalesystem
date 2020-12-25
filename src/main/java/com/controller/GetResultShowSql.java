@@ -1065,6 +1065,35 @@ public class GetResultShowSql {
 		return "sqlShow.jsp";
 	}
 	
+	@RequestMapping("activedStore")
+	public String activedStore(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		String posDay = req.getParameter("posDay");
+		String posYear1 = req.getParameter("posYear1");
+		String posMonth1 = req.getParameter("posMonth1");
+		String posDay1 = req.getParameter("posDay1");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	SELECT 															<br> " );
+		sb.append(	"	date(concat(p.pos_year,p.pos_month,p.pos_day)) AS 日期, 															<br> " );
+		sb.append(	"	COUNT(DISTINCT p.pos_customer_num) AS 活跃用户数,															<br> " );
+		sb.append(	"	group_concat(distinct s.store_name) as 活跃店铺名字,															<br> " );
+		sb.append(	"	SUM(p.pos_quantity) 拿货数,															<br> " );
+		sb.append(	"	floor(sum(p.pos_quantity) / 32) 箱,															<br> " );
+		sb.append(	"	mod (sum(p.pos_quantity), 32) 碗															<br> " );
+		sb.append(	"	from															<br> " );
+		sb.append(	"		pos p,														<br> " );
+		sb.append(	"		store s														<br> " );
+		sb.append(	"	where															<br> " );
+		sb.append(	"	p.pos_store_num = s.store_num															<br> " );
+		sb.append(	"	and date(concat(p.pos_year,p.pos_month,p.pos_day)) 															<br> " );
+		sb.append(	"	BETWEEN '"+posYear+"-"+getZeroMonthDay(posMonth)+"-"+getZeroMonthDay(posDay)+"'															<br> " );
+		sb.append(	"	AND '"+posYear1+"-"+getZeroMonthDay(posMonth1)+"-"+getZeroMonthDay(posDay1)+"'															<br> " );
+		sb.append(	"	GROUP BY date(concat(p.pos_year,p.pos_month,p.pos_day))															<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
 	@RequestMapping("qq")
 	public String show1(HttpServletRequest req,Model model){
 		String posYear = req.getParameter("posYear");

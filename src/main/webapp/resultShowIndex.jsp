@@ -499,24 +499,24 @@ font:hover {color: green;}
 
 <div class="box">
     <div class="img">
-        <img style="width:1000px;height:300px;" src="/images/23-Dingtalk_20201225140150.jpg" alt="24" />
+        <img style="width:600px;height:300px;" src="/images/24-Dingtalk_20201225161647.jpg" alt="24" />
     </div>
     <ul class="list">
-        <li><span>功能:</span> <font size="4" color="#FF4500">没有拿指定口味的店汇总</font></li>
+        <li><span>功能:</span> <font size="4" color="#FF4500">活跃店铺数</font></li>
         <li><span>查询:</span>			
-        			<form name="form" action="buyAButNotBuyB" method="post">
-						<input type="text" name="posYear"  required="required" style="width: 30px;" /> 年
-						<input type="text" name="posMonth"  style="width: 30px;" /> 月
-						<input type="text" name="posDay"  style="width: 30px;" /> 日 <br>没有拿
-						<input type="text" name="likeName1" required="required" style="width: 50px;" />和
-						<input type="text" name="likeName2"  style="width: 50px;" />和
-						<input type="text" name="likeName3"  style="width: 50px;" />和
-						<input type="text" name="likeName4"  style="width: 50px;" />的店铺<br>
+        			<form name="form" action="activedStore" method="post">
+						从<input type="text" name="posYear"  required="required" style="width: 30px;" /> 年
+						<input type="text" name="posMonth"  required="required" style="width: 30px;" /> 月
+						<input type="text" name="posDay" required="required" style="width: 30px;" /> 日 <br>
+						到<input type="text" name="posYear1"  required="required" style="width: 30px;" /> 年
+						<input type="text" name="posMonth1"  required="required" style="width: 30px;" /> 月
+						<input type="text" name="posDay1" required="required" style="width: 30px;" /> 日 
+						<br>的活跃店铺数<br>
 						<input type="submit" value="查询" /> 
 						<input type="reset" value="重置">
 					</form>
 		</li>
-        <li><span>描述：</span><p>根据输入的项目，查询对应（年，年月，年月日），拿了货的店铺名字模糊查询</p></li>
+        <li><span>描述：</span><p>根据输入的项目，查询对应（年月日-年月日），活跃店铺数</p></li>
     </ul>
 </div>
 
