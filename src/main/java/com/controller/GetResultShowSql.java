@@ -935,6 +935,10 @@ public class GetResultShowSql {
 		sb.append(	"	SELECT															<br> " );
 		sb.append(	"		s1.store_num 门店编号,														<br> " );
 		sb.append(	"		s1.store_name 门店名字,														<br> " );
+		sb.append(	"		c.customer_name 店铺负责人,														<br> " );
+		sb.append(	"		c.customer_telephone 店铺负责人电话,														<br> " );
+		sb.append(	"		a.agency_name 店铺对应业务员,														<br> " );
+		sb.append(	"		a.agency_telephone 店铺对应业务员电话,														<br> " );
 		if (posDay != null && !"".equals(posDay)&&posMonth != null && !"".equals(posMonth)) {
 			sb.append(	"		date(concat(p1.pos_year,p1.pos_month,p1.pos_day)) 日期,														<br> " );
 		} else if (posMonth != null && !"".equals(posMonth)) {
@@ -962,10 +966,14 @@ public class GetResultShowSql {
 		sb.append(	"	FROM															<br> " );
 		sb.append(	"		store s1,														<br> " );
 		sb.append(	"		pos p1,														<br> " );
-		sb.append(	"		goods g1														<br> " );
+		sb.append(	"		goods g1,														<br> " );
+		sb.append(	"		customer c,														<br> " );
+		sb.append(	"		agency a														<br> " );
 		sb.append(	"	WHERE															<br> " );
 		sb.append(	"		p1.pos_store_num = s1.store_num														<br> " );
 		sb.append(	"	AND p1.pos_goods_num = g1.goods_num															<br> " );
+		sb.append(	"	AND s1.store_customer_num = c.customer_num															<br> " );
+		sb.append(	"	AND s1.store_agency_num = a.agency_num															<br> " );
 		sb.append(	"	AND p1.pos_year = "+posYear+"															<br> " );
 		if (posMonth != null && !"".equals(posMonth)) {
 			sb.append("			and p1.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
@@ -1001,6 +1009,58 @@ public class GetResultShowSql {
 			sb.append("			and p.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
 		}
 		sb.append(	"	)															<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
+	@RequestMapping("avgJudge")
+	public String avgJudge(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		String posDay = req.getParameter("posDay");
+		String count1 = req.getParameter("count1");
+		String res1 = req.getParameter("res1");
+		String count2 = req.getParameter("count2");
+		String count3 = req.getParameter("count3");
+		String res2 = req.getParameter("res2");
+		String res3 = req.getParameter("res3");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	select s.store_name 店铺名字,															<br> " );
+		sb.append(	"	c.customer_name 店铺负责人,															<br> " );
+		sb.append(	"	c.customer_telephone 店铺负责人电话,															<br> " );
+		sb.append(	"	a.agency_name 店铺对应业务员,															<br> " );
+		sb.append(	"	a.agency_telephone 店铺对应业务员电话, 															<br> " );
+		if (posDay != null && !"".equals(posDay)&&posMonth != null && !"".equals(posMonth)) {
+			sb.append(	"		date(concat(p.pos_year,p.pos_month,p.pos_day)) 日期,														<br> " );
+		} else if (posMonth != null && !"".equals(posMonth)) {
+			sb.append(	"		concat(p.pos_year,p.pos_month) 日期,														<br> " );
+		} else {
+			sb.append(	"		p.pos_year 日期,														<br> " );
+		}
+		sb.append(	"	 ROUND(avg(p.pos_quantity)) 平均拿货量, 															<br> " );
+		sb.append(	"	 case 															<br> " );
+		sb.append(	"	     when avg(p.pos_quantity)<="+count1+" then '"+res1+"'															<br> " );
+		sb.append(	"			 when avg(p.pos_quantity)>"+count2+" and avg(p.pos_quantity)<="+count3+" then '"+res2+"'													<br> " );
+		sb.append(	"	     else '"+res3+"'															<br> " );
+		sb.append(	"	 end 评价															<br> " );
+		sb.append(	"																<br> " );
+		sb.append(	"	FROM															<br> " );
+		sb.append(	"		pos p,														<br> " );
+		sb.append(	"		store s,														<br> " );
+		sb.append(	"		customer c,														<br> " );
+		sb.append(	"		agency a														<br> " );
+		sb.append(	"	WHERE															<br> " );
+		sb.append(	"		p.pos_store_num = s.store_num														<br> " );
+		sb.append(	"	AND s.store_customer_num = c.customer_num															<br> " );
+		sb.append(	"	AND s.store_agency_num = a.agency_num															<br> " );
+		sb.append(	"	AND p.pos_year = "+posYear+"														<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		if (posDay != null && !"".equals(posDay)) {
+			sb.append("			and p.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
+		}		sb.append(	"	GROUP BY															<br> " );
+		sb.append(	"		s.store_num														<br> " );
 		model.addAttribute("message", sb.toString());
 		return "sqlShow.jsp";
 	}
