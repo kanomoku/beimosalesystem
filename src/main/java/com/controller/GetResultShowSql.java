@@ -1114,7 +1114,9 @@ public class GetResultShowSql {
 			sb.append(	"		concat(p.pos_year,p.pos_month) 日期,														<br> " );
 		} else {
 			sb.append(	"		p.pos_year 日期,														<br> " );
-		}		sb.append(	"		sum(p.pos_quantity) 门店拿货数量,														<br> " );
+		}		
+		sb.append(	"		COUNT(p.pos_num) 订单数,														<br> " );
+		sb.append(	"		sum(p.pos_quantity) 门店拿货数量,														<br> " );
 		sb.append(	"		floor(sum(p.pos_quantity) / "+countPerBin+") 箱,														<br> " );
 		sb.append(	"		mod (sum(p.pos_quantity), "+countPerBin+") 碗,														<br> " );
 		sb.append(	"		sum(p.pos_total_price) 门店拿货总价钱, # 从销售数据Excel 中读取														<br> " );
