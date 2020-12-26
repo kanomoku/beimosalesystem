@@ -43,12 +43,11 @@ td {
 <a href="/posShow">查询全部销售订单</a>
 <br>
 <br>
-<!-- <form name="form" action="posOrderShow" method="post" onSubmit="return beforeSubmit(this);"> -->
 <form name="form" action="posOrderShow" method="post" >
-	年：<input type="text" name="posYear" required="required" style="width:30px;"/>
-	月：<input type="text" name="posMonth" style="width:30px;"/>
-	日：<input type="text" name="posDay" style="width:30px;"/>
-	<input type="submit" value="查询对应日期销售订单-降序显示"/> 
+	查询 <input type="text" name="posYear" required="required" style="width:30px;"/>年
+	<input type="text" name="posMonth" style="width:30px;"/>月
+	<input type="text" name="posDay" style="width:30px;"/>日 单笔 销售订单（降序显示）
+	<input type="submit" value="查询"/> 
 	<input type="reset" value="重置">
 </form>
 <br>
@@ -62,5 +61,7 @@ td {
 	<input type="reset" value="重置">
 </form>
 <br>
-<a href="resultShowIndex.jsp">销售结果统计页</a>
+<a href="resultShowIndex.jsp">销售结果统计页</a><br>
+<a href="goodsSaleShowIndex.jsp">产品相关页</a><br>
+<a href="profitShowIndex.jsp">利润相关页</a><br>
 </html>
