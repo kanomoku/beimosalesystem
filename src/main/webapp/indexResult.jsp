@@ -65,27 +65,6 @@ font:hover {color: green;}
 
 <div class="box">
     <div class="img">
-        <img style="width:1000px;height:400px;" src="/images/3-Dingtalk_20201214135515.jpg" alt="3" />
-    </div>
-    <ul class="list">
-        <li><span>功能:</span> <font size="4" color="#FF4500">销售数量7天变化增长</font></li>
-        <li><span>查询:</span>			
-        			<form name="form" action="avg7day" method="post">
-						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
-						月：<input type="text" name="posMonth" style="width: 30px;" /> 
-						<input type="submit" value="查询" /> 
-						<input type="reset" value="重置">
-					</form>
-		</li>
-        <li><span>描述：</span><p>根据输入的项目，以 7 天（某日期 + 该日期前的 6 天）为一个时间段，查询对应（年，年月）门店  7天拿货总量，7天拿货平均量，7天拿货总量的增量，7天拿货平均量的增量</p></li>
-    </ul>
-        <div class="img">
-        <img src="/images/C447D3F6-1E95-452e-8962-C0516E204F25.png" alt="3" />
-    </div>
-</div>
-
-<div class="box">
-    <div class="img">
         <img src="/images/4-Dingtalk_20201214135858.jpg" alt="4" />
         <img src="/images/4D0D1532-48AB-4836-9588-404D1553376B.png" alt="4" />
     </div>
@@ -427,47 +406,9 @@ font:hover {color: green;}
     </ul>
 </div>
 
-<div class="box">
-    <div class="img">
-        <img style="width:800px;height:300px;" src="/images/22-Dingtalk_20201225130411.jpg" alt="22" />
-    </div>
-    <ul class="list">
-        <li><span>功能:</span> <font size="4" color="#FF4500">店铺拿货种类统计</font></li>
-        <li><span>查询:</span>			
-        			<form name="form" action="goodsKindsPerStore" method="post">
-						<input type="text" name="posYear" required="required" style="width: 30px;" /> 年
-						<input type="text" name="posMonth"  style="width: 30px;" /> 月
-						<input type="text" name="posDay"  style="width: 30px;" /> 日，店铺拿货种类统计<br>
-						<input type="submit" value="查询" /> 
-						<input type="reset" value="重置">
-					</form>
-		</li>
-        <li><span>描述：</span><p>根据输入的项目，查询对应（年，年月，年月日），店铺拿货种类统计</p></li>
-    </ul>
-</div>
 
-<div class="box">
-    <div class="img">
-        <img style="width:1000px;height:300px;" src="/images/23-Dingtalk_20201225140150.jpg" alt="23" />
-    </div>
-    <ul class="list">
-        <li><span>功能:</span> <font size="4" color="#FF4500">没有拿指定口味的店汇总</font></li>
-        <li><span>查询:</span>			
-        			<form name="form" action="buyAButNotBuyB" method="post">
-						<input type="text" name="posYear"  required="required" style="width: 30px;" /> 年
-						<input type="text" name="posMonth"  style="width: 30px;" /> 月
-						<input type="text" name="posDay"  style="width: 30px;" /> 日 <br>没有拿
-						<input type="text" name="likeName1" required="required" style="width: 50px;" />和
-						<input type="text" name="likeName2"  style="width: 50px;" />和
-						<input type="text" name="likeName3"  style="width: 50px;" />和
-						<input type="text" name="likeName4"  style="width: 50px;" />的店铺<br>
-						<input type="submit" value="查询" /> 
-						<input type="reset" value="重置">
-					</form>
-		</li>
-        <li><span>描述：</span><p>根据输入的项目，查询对应（年，年月，年月日），拿了货的店铺名字模糊查询</p></li>
-    </ul>
-</div>
+
+
 
 <div class="box">
     <div class="img">
@@ -497,28 +438,7 @@ font:hover {color: green;}
     </ul>
 </div>
 
-<div class="box">
-    <div class="img">
-        <img style="width:600px;height:300px;" src="/images/24-Dingtalk_20201225161647.jpg" alt="24" />
-    </div>
-    <ul class="list">
-        <li><span>功能:</span> <font size="4" color="#FF4500">活跃店铺数</font></li>
-        <li><span>查询:</span>			
-        			<form name="form" action="activedStore" method="post">
-						从<input type="text" name="posYear"  required="required" style="width: 30px;" /> 年
-						<input type="text" name="posMonth"  required="required" style="width: 30px;" /> 月
-						<input type="text" name="posDay" required="required" style="width: 30px;" /> 日 <br>
-						到<input type="text" name="posYear1"  required="required" style="width: 30px;" /> 年
-						<input type="text" name="posMonth1"  required="required" style="width: 30px;" /> 月
-						<input type="text" name="posDay1" required="required" style="width: 30px;" /> 日 
-						<br>的活跃店铺数<br>
-						<input type="submit" value="查询" /> 
-						<input type="reset" value="重置">
-					</form>
-		</li>
-        <li><span>描述：</span><p>根据输入的项目，查询对应（年月日-年月日），活跃店铺数</p></li>
-    </ul>
-</div>
+
 </body>
 <br>
 <br>

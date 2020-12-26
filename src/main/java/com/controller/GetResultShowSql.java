@@ -105,7 +105,6 @@ public class GetResultShowSql {
 	}
 	@RequestMapping("avg7day")
 	public String avg7day(HttpServletRequest req,Model model){
-		
 		String posYear = req.getParameter("posYear");
 		String posMonth = req.getParameter("posMonth");
 		StringBuilder sb = new StringBuilder();
@@ -118,13 +117,13 @@ public class GetResultShowSql {
 		sb.append(	"			ifnull(b.avgQuantity1,0) '前天往前7天销售平均数',							<br> " );
 		sb.append(	"	    CASE									<br> " );
 		sb.append(	"	        WHEN ifnull(b.totalQuantity1,0) >0									<br> " );
-		sb.append(	"	            THEN concat(ROUND((ifnull(a.totalQuantity,0) - ifnull(b.totalQuantity1,0))* 100 / ifnull(b.totalQuantity1,0), 2),'%')									<br> " );
+		sb.append(	"	            THEN concat(ROUND((ifnull(a.totalQuantity,0) - b.totalQuantity1)* 100 / b.totalQuantity1, 2),'%') #求7天总销售量的增长率 = （当天往前7天销售总数-前天往前7天销售总数）/前天往前7天销售总数									<br> " );
 		sb.append(	"	        ELSE									<br> " );
 		sb.append(	"	            concat(0,'%')									<br> " );
 		sb.append(	"	    END AS '7天总量增长率',									<br> " );
 		sb.append(	"	    CASE									<br> " );
 		sb.append(	"	        WHEN ifnull(b.avgQuantity1,0) >0									<br> " );
-		sb.append(	"	            THEN concat(ROUND((ifnull(a.avgQuantity,0) - ifnull(b.avgQuantity1,0))* 100 / ifnull(b.avgQuantity1,0), 2),'%')									<br> " );
+		sb.append(	"	            THEN concat(ROUND((ifnull(a.avgQuantity,0) - b.avgQuantity1)* 100 / b.avgQuantity1, 2),'%')#求7天平均销售量的增长率 = （当天往前7天销售平均数-前天往前7天销售平均数）/前天往前7天销售平均数								<br> " );
 		sb.append(	"	        ELSE									<br> " );
 		sb.append(	"	            concat(0,'%')									<br> " );
 		sb.append(	"	    END AS '7天均值增长率'									<br> " );
@@ -141,7 +140,7 @@ public class GetResultShowSql {
 		if (posMonth != null && !"".equals(posMonth)) {
 			sb.append("			                  and pos_month ="+getZeroMonthDay(posMonth)+"<br>	"	);
 		}
-		sb.append(	"						group by date(concat(pos_year,pos_month,pos_day))) c1 				<br> " );
+		sb.append(	"						group by date(concat(pos_year,pos_month,pos_day))) c1 	# 统计当月每天的销售总额度			<br> " );
 		sb.append(	"		join 								<br> " );
 		sb.append(	"		(select date(concat(pos_year,pos_month,pos_day)) as visited_on, sum(pos_quantity) as pos_quantity								<br> " );
 		sb.append(	"						from  pos 				<br> " );
@@ -153,7 +152,7 @@ public class GetResultShowSql {
 		sb.append(	"		on timestampdiff(day,c2.visited_on,c1.visited_on) between 0 and 6 								<br> " );
 		sb.append(	"		group by c1.visited_on								<br> " );
 		sb.append(	"		order by c1.visited_on								<br> " );
-		sb.append(	"	) a									<br> " );
+		sb.append(	"	) a	# 求天的销售总额度和平均额度，不够7天有几天算几天								<br> " );
 		sb.append(	"	left join									<br> " );
 		sb.append(	"	(									<br> " );
 		sb.append(	"		select								<br> " );
@@ -180,7 +179,7 @@ public class GetResultShowSql {
 		sb.append(	"		group by c3.visited_on								<br> " );
 		sb.append(	"		order by c3.visited_on								<br> " );
 		sb.append(	"	) b									<br> " );
-		sb.append(	"	on timestampdiff(day,b.visited_on1,a.visited_on) =1									<br> " );
+		sb.append(	"	on timestampdiff(day,b.visited_on1,a.visited_on) =1	# 到当天的7日统计数据 和 到昨天的7日统计数据								<br> " );
 		sb.append(	"	order by a.visited_on									<br> " );
 		model.addAttribute("message", sb.toString());
 		return "sqlShow.jsp";
@@ -1215,6 +1214,132 @@ public class GetResultShowSql {
 		model.addAttribute("message", sb.toString());
 		return "sqlShow.jsp";
 	
+	}
+	
+	@RequestMapping("avgAll7day")
+	public String avgAll7day(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	select															<br> " );
+		sb.append(	"	a.visited_on '当天',															<br> " );
+		sb.append(	"	ifnull(a.totalQuantity,0) '当天往前7天销售额总数',															<br> " );
+		sb.append(	"	ifnull(a.avgQuantity,0) '当天往前7天销售额平均数',															<br> " );
+		sb.append(	"	ifnull(b.visited_on1,date_sub(a.visited_on,interval 1 day)) '前一天',															<br> " );
+		sb.append(	"	ifnull(b.totalQuantity1,0) '前天往前7天销售总数',															<br> " );
+		sb.append(	"	ifnull(b.avgQuantity1,0) '前天往前7天销售平均数',															<br> " );
+		sb.append(	"	CASE															<br> " );
+		sb.append(	"	WHEN ifnull(b.totalQuantity1,0) >0															<br> " );
+		sb.append(	"	THEN concat(ROUND((ifnull(a.totalQuantity,0) - b.totalQuantity1)* 100 / b.totalQuantity1, 2),'%') #求7天总销售量的增长率 = （当天往前7天销售总数-前天往前7天销售总数）/前天往前7天销售总数															<br> " );
+		sb.append(	"	ELSE															<br> " );
+		sb.append(	"	concat(0,'%')															<br> " );
+		sb.append(	"	END AS '7天总销售额增长率',															<br> " );
+		sb.append(	"	CASE															<br> " );
+		sb.append(	"	WHEN ifnull(b.avgQuantity1,0) >0															<br> " );
+		sb.append(	"	THEN concat(ROUND((ifnull(a.avgQuantity,0) - b.avgQuantity1)* 100 / b.avgQuantity1, 2),'%')#求7天平均销售量的增长率 = （当天往前7天销售平均数-前天往前7天销售平均数）/前天往前7天销售平均数															<br> " );
+		sb.append(	"	ELSE															<br> " );
+		sb.append(	"	concat(0,'%')															<br> " );
+		sb.append(	"	END AS '7天均销售额增长率',															<br> " );
+		sb.append(	"	a.visited_on '当天1',															<br> " );
+		sb.append(	"	ifnull(a.totalOrder,0) '当天往前7天订单总数',															<br> " );
+		sb.append(	"	ifnull(a.avgOrder,0) '当天往前7天订单平均数',															<br> " );
+		sb.append(	"	ifnull(b.visited_on1,date_sub(a.visited_on,interval 1 day)) '前一天1',															<br> " );
+		sb.append(	"	ifnull(b.totalOrder1,0) '前天往前7天订单总数',															<br> " );
+		sb.append(	"	ifnull(b.avgOrder1,0) '前天往前7天订单平均数',															<br> " );
+		sb.append(	"	CASE															<br> " );
+		sb.append(	"	WHEN ifnull(b.totalOrder1,0) >0															<br> " );
+		sb.append(	"	THEN concat(ROUND((ifnull(a.totalOrder,0) - b.totalOrder1)* 100 / b.totalOrder1, 2),'%') 															<br> " );
+		sb.append(	"	ELSE															<br> " );
+		sb.append(	"	concat(0,'%')															<br> " );
+		sb.append(	"	END AS '7天总订单数增长率',															<br> " );
+		sb.append(	"	CASE															<br> " );
+		sb.append(	"	WHEN ifnull(b.avgOrder1,0) >0															<br> " );
+		sb.append(	"	THEN concat(ROUND((ifnull(a.avgOrder,0) - b.avgOrder1)* 100 / b.avgOrder1, 2),'%')															<br> " );
+		sb.append(	"	ELSE															<br> " );
+		sb.append(	"	concat(0,'%')															<br> " );
+		sb.append(	"	END AS '7天均订单数增长率',															<br> " );
+		sb.append(	"	a.visited_on '当天2',															<br> " );
+		sb.append(	"	ifnull(a.totalStore,0) '当天往前7天拿货店铺总数',															<br> " );
+		sb.append(	"	ifnull(a.avgStore,0) '当天往前7天拿货店铺平均数',															<br> " );
+		sb.append(	"	ifnull(b.visited_on1,date_sub(a.visited_on,interval 1 day)) '前一天2',															<br> " );
+		sb.append(	"	ifnull(b.totalStore1,0) '前天往前7天拿货店铺总数',															<br> " );
+		sb.append(	"	ifnull(b.avgStore1,0) '前天往前7天拿货店铺平均数',															<br> " );
+		sb.append(	"	CASE															<br> " );
+		sb.append(	"	WHEN ifnull(b.totalStore1,0) >0															<br> " );
+		sb.append(	"	THEN concat(ROUND((ifnull(a.totalStore,0) - b.totalStore1)* 100 / b.totalStore1, 2),'%') 															<br> " );
+		sb.append(	"	ELSE															<br> " );
+		sb.append(	"	concat(0,'%')															<br> " );
+		sb.append(	"	END AS '7天总拿货门店数增长率',															<br> " );
+		sb.append(	"	CASE															<br> " );
+		sb.append(	"	WHEN ifnull(b.avgStore1,0) >0															<br> " );
+		sb.append(	"	THEN concat(ROUND((ifnull(a.avgStore,0) - b.avgStore1)* 100 / b.avgStore1, 2),'%')															<br> " );
+		sb.append(	"	ELSE															<br> " );
+		sb.append(	"	concat(0,'%')															<br> " );
+		sb.append(	"	END AS '7天平均拿货门店数增长率'															<br> " );
+		sb.append(	"	from															<br> " );
+		sb.append(	"	(															<br> " );
+		sb.append(	"	select															<br> " );
+		sb.append(	"	c1.visited_on visited_on,															<br> " );
+		sb.append(	"	sum(c2.pos_quantity) totalQuantity ,															<br> " );
+		sb.append(	"	round(avg(c2.pos_quantity), 2) avgQuantity,															<br> " );
+		sb.append(	"	sum(c2.order_total) totalOrder ,															<br> " );
+		sb.append(	"	round(avg(c2.order_total), 2) avgOrder,															<br> " );
+		sb.append(	"	sum(c2.store_total) totalStore,															<br> " );
+		sb.append(	"	round(avg(c2.store_total), 2) avgStore															<br> " );
+		sb.append(	"	from															<br> " );
+		sb.append(	"	(select date(concat(pos_year,pos_month,pos_day)) as visited_on, sum(pos_quantity) as pos_quantity,COUNT(pos_num) as order_total,COUNT(DISTINCT pos_store_num) as store_total															<br> " );
+		sb.append(	"	from pos															<br> " );
+		sb.append(	"	where pos_year = "+posYear+"															<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		sb.append(	"	group by date(concat(pos_year,pos_month,pos_day))) c1 # 统计当月每天的销售总额度															<br> " );
+		sb.append(	"	join															<br> " );
+		sb.append(	"	(select date(concat(pos_year,pos_month,pos_day)) as visited_on, sum(pos_quantity) as pos_quantity,COUNT(pos_num) as order_total,COUNT(DISTINCT pos_store_num) as store_total															<br> " );
+		sb.append(	"	from pos															<br> " );
+		sb.append(	"	where pos_year = "+posYear+"															<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		sb.append(	"	group by date(concat(pos_year,pos_month,pos_day))) c2															<br> " );
+		sb.append(	"	on timestampdiff(day,c2.visited_on,c1.visited_on) between 0 and 6															<br> " );
+		sb.append(	"	group by c1.visited_on															<br> " );
+		sb.append(	"	order by c1.visited_on															<br> " );
+		sb.append(	"	) a # 求天的销售总额度和平均额度，不够7天有几天算几天															<br> " );
+		sb.append(	"	left join															<br> " );
+		sb.append(	"	(															<br> " );
+		sb.append(	"	select															<br> " );
+		sb.append(	"	c3.visited_on visited_on1,															<br> " );
+		sb.append(	"	sum(c4.pos_quantity) totalQuantity1 ,															<br> " );
+		sb.append(	"	round(avg(c4.pos_quantity), 2) avgQuantity1,															<br> " );
+		sb.append(	"	sum(c4.order_total) totalOrder1 ,															<br> " );
+		sb.append(	"	round(avg(c4.order_total), 2) avgOrder1,															<br> " );
+		sb.append(	"	sum(c4.store_total) totalStore1,															<br> " );
+		sb.append(	"	round(avg(c4.store_total), 2) avgStore1															<br> " );
+		sb.append(	"	from															<br> " );
+		sb.append(	"	(select date(concat(pos_year,pos_month,pos_day)) as visited_on, sum(pos_quantity) as pos_quantity,COUNT(pos_num) as order_total,COUNT(DISTINCT pos_store_num) as store_total															<br> " );
+		sb.append(	"	from pos															<br> " );
+		sb.append(	"	where pos_year = "+posYear+"															<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		sb.append(	"	group by date(concat(pos_year,pos_month,pos_day))) c3															<br> " );
+		sb.append(	"	join															<br> " );
+		sb.append(	"	(select date(concat(pos_year,pos_month,pos_day)) as visited_on, sum(pos_quantity) as pos_quantity,COUNT(pos_num) as order_total,COUNT(DISTINCT pos_store_num) as store_total															<br> " );
+		sb.append(	"	from pos															<br> " );
+		sb.append(	"	where pos_year = "+posYear+"															<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		sb.append(	"	group by date(concat(pos_year,pos_month,pos_day))) c4															<br> " );
+		sb.append(	"	on timestampdiff(day,c4.visited_on,c3.visited_on) between 0 and 6															<br> " );
+		sb.append(	"	group by c3.visited_on															<br> " );
+		sb.append(	"	order by c3.visited_on															<br> " );
+		sb.append(	"	) b															<br> " );
+		sb.append(	"	on timestampdiff(day,b.visited_on1,a.visited_on) =1 # 到当天的7日统计数据 和 到昨天的7日统计数据															<br> " );
+		sb.append(	"	order by a.visited_on 															<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
 	}
 	
 	@RequestMapping("qq")
