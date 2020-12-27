@@ -14,39 +14,51 @@ public class GetResultShowSql {
 		String posMonth = req.getParameter("posMonth");
 		String posDay = req.getParameter("posDay");
 		StringBuilder sb = new StringBuilder();
-		sb.append(	"	select derived2.bin  范围,ifnull(derived1.total,0) 销售总数  <br>	"	);
-		sb.append(	"	from						<br>	"	);
-		sb.append(	"			(select 				<br>	"	);
-		sb.append(	"					case		<br>	"	);
-		sb.append(	"							when pos_quantity <=32 then '1:  <=1箱'		<br>	"	);
-		sb.append(	"							when pos_quantity>32 and pos_quantity<=64 then '2:  1箱< <=2箱'		<br>	"	);
-		sb.append(	"							when pos_quantity>64 and pos_quantity<=96 then '3:  2箱<  <=3箱'		<br>	"	);
-		sb.append(	"							when pos_quantity>96 and pos_quantity<128 then '4:  3箱< <=4箱'		<br>	"	);
-		sb.append(	"							when pos_quantity>128 and pos_quantity<160 then '5:  4箱< <=5箱'		<br>	"	);
-		sb.append(	"							else '6:  > 5箱'		<br>	"	);
-		sb.append(	"					end bin,		<br>	"	);
-		sb.append(	"					count(*) total		<br>	"	);
-		sb.append(	"			from pos				<br>	"	);
-		sb.append(	"			where pos.pos_year="+posYear+"<br>	"	);
+		sb.append(	"	SELECT															<br> " );
+		sb.append(	"		derived2.bin 范围,														<br> " );
+		sb.append(	"		ifnull(derived1.date, '----') 日期,														<br> " );
+		sb.append(	"		ifnull(derived1.total, 0) 销售总数														<br> " );
+		sb.append(	"	from															<br> " );
+		sb.append(	"	(															<br> " );
+		sb.append(	"	select '1: <=1箱' bin union															<br> " );
+		sb.append(	"	select '2: 1箱< <=2箱' bin union															<br> " );
+		sb.append(	"	select '3: 2箱< <=3箱' bin union															<br> " );
+		sb.append(	"	select '4: 3箱< <=4箱' bin union															<br> " );
+		sb.append(	"	select '5: 4箱< <=5箱' bin union															<br> " );
+		sb.append(	"	select '6: > 5箱' bin															<br> " );
+		sb.append(	"	)															<br> " );
+		sb.append(	"	derived2															<br> " );
+		sb.append(	"	left join															<br> " );
+		sb.append(	"	(															<br> " );
+		sb.append(	"	select															<br> " );
+		sb.append(	"	case															<br> " );
+		sb.append(	"	when pos_quantity <=32 then '1: <=1箱'															<br> " );
+		sb.append(	"	when pos_quantity>32 and pos_quantity<=64 then '2: 1箱< <=2箱'															<br> " );
+		sb.append(	"	when pos_quantity>64 and pos_quantity<=96 then '3: 2箱< <=3箱'															<br> " );
+		sb.append(	"	when pos_quantity>96 and pos_quantity<128 then '4: 3箱< <=4箱'															<br> " );
+		sb.append(	"	when pos_quantity>128 and pos_quantity<160 then '5: 4箱< <=5箱'															<br> " );
+		sb.append(	"	else '6: > 5箱'															<br> " );
+		sb.append(	"	end bin,															<br> " );
+		if (posDay != null && !"".equals(posDay)&&posMonth != null && !"".equals(posMonth)) {
+			sb.append(	"		date(concat(pos.pos_year,pos.pos_month,pos.pos_day)) date,														<br> " );
+		} else if (posMonth != null && !"".equals(posMonth)) {
+			sb.append(	"		concat(pos.pos_year,pos.pos_month) date,														<br> " );
+		} else {
+			sb.append(	"		pos.pos_year date,														<br> " );
+		}
+		sb.append(	"	count(*) total														<br> " );
+		sb.append(	"	from pos															<br> " );
+		sb.append(	"	where pos.pos_year="+posYear+"															<br> " );
 		if (posMonth != null && !"".equals(posMonth)) {
 			sb.append("			and pos.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
 		}
 		if (posDay != null && !"".equals(posDay)) {
 			sb.append("			and pos.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
 		}
-		sb.append(	"			group by bin				<br>	"	);
-		sb.append(	"			)derived1				<br>	"	);
-		sb.append(	"	right join 						<br>	"	);
-		sb.append(	"			(select '1:  <=1箱' bin union				<br>	"	);
-		sb.append(	"			select '2:  1箱< <=2箱' bin union				<br>	"	);
-		sb.append(	"			select '3:  2箱<  <=3箱' bin union				<br>	"	);
-		sb.append(	"			select '4:  3箱< <=4箱' bin union				<br>	"	);
-		sb.append(	"			select '5:  4箱< <=5箱' bin union				<br>	"	);
-		sb.append(	"			select '6:  > 5箱' bin       				<br>	"	);
-		sb.append(	"			)derived2				<br>	"	);
-		sb.append(	"	on derived2.bin = derived1.bin						<br>	"	);
-		sb.append(	"	order by derived2.bin						<br>	"	);
-		
+		sb.append(	"	group by bin															<br> " );
+		sb.append(	"	)	derived1														<br> " );
+		sb.append(	"	 ON derived2.bin = derived1.bin															<br> " );
+		sb.append(	"	ORDER BY derived2.bin															<br> " );
 		model.addAttribute("message", sb.toString());
 		return "sqlShow.jsp";
 	}
@@ -62,6 +74,7 @@ public class GetResultShowSql {
 		sb.append(		"		t.rank 排名,						<br> " );
 		sb.append(		"		pos.pos_store_num 店铺编号,						<br> " );
 		sb.append(		"		s.store_name 店铺名称,						<br> " );
+		sb.append(		"		date(concat(pos.pos_year,pos.pos_month,pos.pos_day)) 日期,						<br> " );
 		sb.append(		"		pos.pos_quantity 拿货数量,						<br> " );
 		sb.append(		"		floor(pos.pos_quantity / 32) 箱,						<br> " );
 		sb.append(		"		mod (pos.pos_quantity, 32) 碗,						<br> " );
@@ -215,6 +228,7 @@ public class GetResultShowSql {
 		model.addAttribute("message", sb.toString());
 		return "sqlShow.jsp";
 	}
+	
 	@RequestMapping("groupStore")
 	public String groupStore(HttpServletRequest req,Model model){
 		String posYear = req.getParameter("posYear");
@@ -547,8 +561,8 @@ public class GetResultShowSql {
 		String posDay = req.getParameter("posDay");
 		StringBuilder sb = new StringBuilder();
 		sb.append(	"	SELECT							<br> " );
-		sb.append(	"		p.pos_num 交易番号,						<br> " );
-		sb.append(	"		p.pos_store_num 门店番号,						<br> " );
+		sb.append(	"		p.pos_num 订单编号,						<br> " );
+		sb.append(	"		p.pos_store_num 门店编号,						<br> " );
 		sb.append(	"		s.store_name 门店名字, 						<br> " );
 		sb.append(	"		date(concat(p.pos_year,p.pos_month,p.pos_day)) 拿货日期,						<br> " );
 		sb.append(	"		p.pos_quantity 单笔最大拿货量						<br> " );
@@ -581,10 +595,10 @@ public class GetResultShowSql {
 		StringBuilder sb = new StringBuilder();
 		sb.append(	"	SELECT							<br> " );
 		sb.append(	"		p2.pos_num 最近一笔订单编号,						<br> " );
-		sb.append(	"		p2.pos_store_num 门店番号,						<br> " );
+		sb.append(	"		p2.pos_store_num 门店编号,						<br> " );
 		sb.append(	"		s.store_name 门店名字,						<br> " );
 		sb.append(	"		date(concat(p2.pos_year,p2.pos_month,p2.pos_day)) 拿货日期,						<br> " );
-		sb.append(	"		p2.pos_quantity 最大交易数						<br> " );
+		sb.append(	"		p2.pos_quantity 单笔最大拿货量						<br> " );
 		sb.append(	"	from							<br> " );
 		sb.append(	"	(SELECT							<br> " );
 		sb.append(	"	max(p.pos_num) posNum							<br> " );
@@ -1178,7 +1192,8 @@ public class GetResultShowSql {
 			sb.append(	"		concat(p.pos_year,p.pos_month) 日期,														<br> " );
 		} else {
 			sb.append(	"		p.pos_year 日期,														<br> " );
-		}			sb.append(	"		COUNT(p.pos_num) 订单数,														<br> " );
+		}			
+		sb.append(	"		COUNT(p.pos_num) 订单数,														<br> " );
 		sb.append(	"		COUNT(DISTINCT p.pos_store_num) 拿了货的门店数量,														<br> " );
 		sb.append(	"		sum(p.pos_quantity) 门店拿货数量,														<br> " );
 		sb.append(	"		floor(sum(p.pos_quantity) / "+countPerBin+") 箱,														<br> " );
@@ -1342,6 +1357,53 @@ public class GetResultShowSql {
 		return "sqlShow.jsp";
 	}
 	
+	@RequestMapping("weekendDisplay")
+	public String weekendDisplay(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	select															<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append(	"		concat(p.pos_year,p.pos_month) 日期,														<br> " );
+		} else {
+			sb.append(	"		p.pos_year 日期,														<br> " );
+		}			sb.append(	"	ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 2 then p.pos_quantity end),0) 周一,															<br> " );
+		sb.append(	"	ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 3 then p.pos_quantity end),0) 周二,															<br> " );
+		sb.append(	"	ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 4 then p.pos_quantity end),0) 周三,															<br> " );
+		sb.append(	"	ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 5 then p.pos_quantity end),0) 周四,															<br> " );
+		sb.append(	"	ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 6 then p.pos_quantity end),0) 周五,															<br> " );
+		sb.append(	"	ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 7 then p.pos_quantity end),0) 周六,															<br> " );
+		sb.append(	"	ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 1 then p.pos_quantity end),0) 周日															<br> " );
+		sb.append(	"	from															<br> " );
+		sb.append(	"	pos p															<br> " );
+		sb.append(	"	where p.pos_year="+posYear+"															<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
+	@RequestMapping("monthPerYearWeekendDisplay")
+	public String monthPerYearWeekendDisplay(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	select															<br> " );
+		sb.append(	"	concat(pos_year,pos_month) 日期,															<br> " );
+		sb.append(	"	ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 2 then p.pos_quantity end),0) 周一,															<br> " );
+		sb.append(	"	ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 3 then p.pos_quantity end),0) 周二,															<br> " );
+		sb.append(	"	ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 4 then p.pos_quantity end),0) 周三,															<br> " );
+		sb.append(	"	ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 5 then p.pos_quantity end),0) 周四,															<br> " );
+		sb.append(	"	ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 6 then p.pos_quantity end),0) 周五,															<br> " );
+		sb.append(	"	ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 7 then p.pos_quantity end),0) 周六,															<br> " );
+		sb.append(	"	ifnull(sum(case when dayofweek(date(concat(pos_year,pos_month,pos_day))) = 1 then p.pos_quantity end),0) 周日															<br> " );
+		sb.append(	"	from															<br> " );
+		sb.append(	"	pos p															<br> " );
+		sb.append(	"	where p.pos_year="+posYear+"															<br> " );
+		sb.append(	"	GROUP BY concat(pos_year,pos_month) 															<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
 	@RequestMapping("qq")
 	public String show1(HttpServletRequest req,Model model){
 		String posYear = req.getParameter("posYear");

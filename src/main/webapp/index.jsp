@@ -65,5 +65,5 @@ td {
 <a href="indexGoodsSale.jsp">产品相关页</a><br>
 <a href="indexProfit.jsp">利润相关页</a><br>
 <a href="indexStore.jsp">门店相关页</a><br>
-<a href="indexSaleStatistics.jsp">销售统计相关页</a><br>
+<a href="indexSale.jsp">销售统计相关页</a><br>
 </html>

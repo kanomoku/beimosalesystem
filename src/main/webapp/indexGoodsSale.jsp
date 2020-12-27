@@ -66,6 +66,25 @@ font:hover {color: green;}
     </ul>
 </div>
 
+<div class="box">
+    <div class="img">
+        <img style="width:600px;height:300px;" src="/images/16-Dingtalk_20201223130746.jpg" alt="16" />
+    </div>
+    <ul class="list" style="width:500px;height:400px;">
+        <li><span>功能:</span> <font size="4" color="#FF4500">各个口味萝卜干卖出去的数量统计</font></li>
+        <li><span>查询:</span>			
+        			<form name="form" action="tasteTotal" method="post">
+						<input type="text" name="posYear" required="required" style="width: 30px;" /> 年
+						<input type="text" name="posMonth"  style="width: 30px;" /> 月
+						<input type="text" name="posDay"  style="width: 30px;" /> 日，各个口味萝卜干卖出去的数量统计.<br>
+						<input type="submit" value="查询" /> 
+						<input type="reset" value="重置">
+					</form>
+		</li>
+        <li><span>描述：</span><p>根据输入的项目，查询对应（年，年月，年月日），各个口味萝卜干卖出去的数量统计</p></li>
+    </ul>
+</div>
+
 </body>
 <br>
 <br>
