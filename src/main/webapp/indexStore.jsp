@@ -125,6 +125,84 @@ font:hover {color: green;}
     </ul>
 </div>
 
+<div class="box">
+    <div class="img">
+        <img style="width:800px;height:300px;" src="/images/5-Dingtalk_20201214140910.jpg" alt="5" />
+    </div>
+    <ul class="list" style="width:1000px;height:400px;">
+        <li><span>功能:</span> <font size="4" color="#FF4500">拿了货的门店--按日期分组</font></li>
+        <li><span>查询:</span>			
+        			<form name="form" action="groupStore" method="post">
+						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
+						月：<input type="text" name="posMonth" style="width: 30px;" /> 
+						日：<input type="text" name="posDay" style="width: 30px;" /> 
+						<input type="submit" value="查询" /> 
+						<input type="reset" value="重置">
+					</form>
+		</li>
+        <li><span>描述：</span><p>给定（年，年月，年月日），查询铺了多少家店，以及每个店的名字是啥;</p></li>
+    </ul>
+</div>
+
+<div class="box">
+    <div class="img">
+        <img style="width:500px;height:400px;" src="/images/8-Dingtalk_20201214153307.jpg" alt="8" />
+        <img style="width:500px;height:400px;" src="/images/8-Dingtalk_20201214153327.jpg" alt="8" />
+    </div>
+    <ul class="list">
+        <li><span>功能:</span> <font size="4" color="#FF4500">求拿货量第i多的店名字</font></li>
+        <li><span>查询:</span>			
+        			<form name="form" action="orderOrder" method="post">
+        				想要查看
+						<input type="text" name="posYear" required="required" style="width: 30px;" /> 年：
+						<input type="text" name="posMonth" style="width: 30px;" /> 月：
+						<input type="text" name="posDay" style="width: 30px;" /> 日：
+						拿货数第<input type="text" name="orderOrder" style="width: 30px;" /> 名的店铺名称
+						<input type="submit" value="查询" /> 
+						<input type="reset" value="重置">
+					</form>
+		</li>
+        <li><span>描述：</span><p>给定（年，年月，年月日），求拿货量第i多的店名字;不去重只看店铺拿货排名</p></li>
+    </ul>
+</div>
+
+<div class="box">
+    <div class="img">
+        <img style="width:1000px;height:400px;" src="/images/10-Dingtalk_20201214201749.jpg" alt="10" />
+    </div>
+    <ul class="list">
+        <li><span>功能:</span> <font size="4" color="#FF4500">各个门店--拿货回数以及占比</font></li>
+        <li><span>查询:</span>			
+        			<form name="form" action="storeTotalAndPercent" method="post">
+						<input type="text" name="posYear" required="required" style="width: 30px;" /> 年
+						<input type="text" name="posMonth"  style="width: 30px;" /> 月
+						<input type="text" name="posDay"  style="width: 30px;" /> 日,不同门店的拿货回数以及占比
+						<input type="submit" value="查询" /> 
+						<input type="reset" value="重置">
+					</form>
+		</li>
+        <li><span>描述：</span><p>根据输入的项目，查询对应（年，年月，年月日），不同门店的拿货回数以及占比</p></li>
+    </ul>
+</div>
+
+<div class="box">
+    <div class="img">
+        <img style="width:600px;height:400px;" src="/images/11-Dingtalk_20201227231045.jpg" alt="11" />
+    </div>
+    <ul class="list">
+        <li><span>功能:</span> <font size="4" color="#FF4500">每个店铺--单笔拿货数量的中位数</font></li>
+        <li><span>查询:</span>			
+        			<form name="form" action="middleNumber" method="post">
+						<input type="text" name="posYear" required="required" style="width: 30px;" /> 年
+						<input type="text" name="posMonth"  style="width: 30px;" /> 月， 不同门店的单笔拿货数量的中位数.
+						<input type="submit" value="查询" /> 
+						<input type="reset" value="重置">
+					</form>
+		</li>
+        <li><span>描述：</span><p>根据输入的项目，查询对应（年，年月），不同门店的单笔拿货数量中位数</p></li>
+    </ul>
+</div>
+
 </body>
 <br>
 <br>

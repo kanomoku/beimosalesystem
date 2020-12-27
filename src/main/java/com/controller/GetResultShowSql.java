@@ -441,12 +441,12 @@ public class GetResultShowSql {
 		String posMonth = req.getParameter("posMonth");
 		StringBuilder sb = new StringBuilder();
 		sb.append(	"	SELECT					<br> " );
-		sb.append(	"		t.pos_num 销售番号,				<br> " );
-		sb.append(	"		t.pos_store_num 门店番号,				<br> " );
+		sb.append(	"		t.pos_num 订单编号,				<br> " );
+		sb.append(	"		t.pos_store_num 门店编号,				<br> " );
 		sb.append(	"		s.store_name 门店名字,				<br> " );
-		sb.append(	"		t.rank 排序,				<br> " );
-		sb.append(	"		t.pos_quantity 单笔拿货中位数,				<br> " );
-		sb.append(	"		t.totalcount 拿货回数				<br> " );
+		sb.append(	"		t.totalcount 拿货回数,				<br> " );
+		sb.append(	"		t.rank 拿货中位数的排序,				<br> " );
+		sb.append(	"		t.pos_quantity 单笔拿货中位数				<br> " );
 		sb.append(	"	from					<br> " );
 		sb.append(	"	(select Ranking.pos_num,					<br> " );
 		sb.append(	"	        Ranking.pos_store_num,					<br> " );
@@ -467,7 +467,7 @@ public class GetResultShowSql {
 		if (posMonth != null && !"".equals(posMonth)) {
 			sb.append("			and p.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
 		}
-		sb.append(	"	ORDER BY p.pos_store_num , p.pos_quantity , p.pos_num) Ranking					<br> " );
+		sb.append(	"	ORDER BY p.pos_store_num , p.pos_quantity , p.pos_num) Ranking	# 同一个门店自己拿货量排名顺序				<br> " );
 		sb.append(	"	INNER JOIN					<br> " );
 		sb.append(	"	(SELECT 					<br> " );
 		sb.append(	"	        COUNT(*) AS totalcount, p2.pos_store_num AS store_num					<br> " );
@@ -477,7 +477,7 @@ public class GetResultShowSql {
 		if (posMonth != null && !"".equals(posMonth)) {
 			sb.append("			and p2.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
 		}
-		sb.append(	"	    GROUP BY p2.pos_store_num) StoreCount 					<br> " );
+		sb.append(	"	    GROUP BY p2.pos_store_num) StoreCount # 门店拿货次数 					<br> " );
 		sb.append(	"	ON StoreCount.store_num = Ranking.pos_store_num					<br> " );
 		sb.append(	"	where					<br> " );
 		sb.append(	"	 Rank = FLOOR((totalcount + 1) / 2)					<br> " );
