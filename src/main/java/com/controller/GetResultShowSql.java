@@ -1223,8 +1223,8 @@ public class GetResultShowSql {
 		StringBuilder sb = new StringBuilder();
 		sb.append(	"	select															<br> " );
 		sb.append(	"	a.visited_on '当天',															<br> " );
-		sb.append(	"	ifnull(a.totalQuantity,0) '当天往前7天销售额总数',															<br> " );
-		sb.append(	"	ifnull(a.avgQuantity,0) '当天往前7天销售额平均数',															<br> " );
+		sb.append(	"	ifnull(a.totalQuantity,0) '当天往前7天销售总数',															<br> " );
+		sb.append(	"	ifnull(a.avgQuantity,0) '当天往前7天销售平均数',															<br> " );
 		sb.append(	"	ifnull(b.visited_on1,date_sub(a.visited_on,interval 1 day)) '前一天',															<br> " );
 		sb.append(	"	ifnull(b.totalQuantity1,0) '前天往前7天销售总数',															<br> " );
 		sb.append(	"	ifnull(b.avgQuantity1,0) '前天往前7天销售平均数',															<br> " );

@@ -10,7 +10,7 @@
 <style>
 ul,p{margin:0;padding:0;}
 li{list-style:none;}
-.box{width:2500px;height:350px;margin:90px auto;}
+.box{width:3000px;height:400px;margin:90px auto;}
 .box .img{float:left;}
 .box .img img{width:500px;height:350px;}
 .box .list{float:left;width:500px;margin-left:10px;display:inline;}
@@ -42,7 +42,7 @@ font:hover {color: green;}
         						7天销售额总数，<br>7天销售额平均数，<br>7天总销售额增长率，<br>7天均销售额增长率。</p></li>
     </ul>
         <div class="img">
-        <img src="/images/C447D3F6-1E95-452e-8962-C0516E204F25.png" alt="3" />
+        <img style="width:1000px;height:400px;" src="/images/3-2-Dingtalk_20201227112521.jpg" alt="3-2" />
     </div>
 </div>
 
@@ -66,7 +66,7 @@ font:hover {color: green;}
         						7天拿货店铺总数，7天拿货店铺平均数，7天总拿货门店数增长率，7天平均拿货门店数增长率。<br></p></li>
     </ul>
         <div class="img">
-        <img src="/images/C447D3F6-1E95-452e-8962-C0516E204F25.png" alt="28" />
+        <img style="width:1000px;height:400px;" src="/images/28-Dingtalk_20201226205901.jpg" alt="28" />
     </div>
 </div>
 
