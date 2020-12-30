@@ -1050,7 +1050,9 @@ public class GetResultShowSql {
 		} else {
 			sb.append(	"		p.pos_year 日期,														<br> " );
 		}
-		sb.append(	"	 ROUND(avg(p.pos_quantity)) 平均拿货量, 															<br> " );
+		sb.append(	"	 SUM(p.pos_quantity) 拿货总量,														<br> " );
+		sb.append(	"	 COUNT(p.pos_quantity) 订单数,														<br> " );
+		sb.append(	"	 ROUND(avg(p.pos_quantity),2) 平均拿货量, 															<br> " );
 		sb.append(	"	 case 															<br> " );
 		sb.append(	"	     when avg(p.pos_quantity)<="+count1+" then '"+res1+"'															<br> " );
 		sb.append(	"			 when avg(p.pos_quantity)>"+count2+" and avg(p.pos_quantity)<="+count3+" then '"+res2+"'													<br> " );

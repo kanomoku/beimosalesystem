@@ -24,12 +24,30 @@ font:hover {color: green;}
 </head>
  
 <body>
+趋势--7天均值采样--销售数量--增长情况<br>
+趋势--7天均值采样--销售数量--订单数--拿货门店数--7天增长情况<br>
+趋势--月总拿货量--销售数量--增长情况<br>
+<br>
+评价--每个门店--拿货总量--拿货回数--平均拿货量--均值评价<br>
+统计--每个门店--年内每月--拿货总数<br>
+统计--每个门店--周内每天--拿货总数<br>
+统计--某年/某月--周内每天--拿货总数<br>
+统计--年内每月--周内每天--拿货总数<br>
+统计--每个月份--订单数--门店数--拿货总数<br>
+<br>
+
+分布--订单单笔拿货数量分布<br>
+排名--订单单笔拿货数量排名(存在并列)<br>
+统计--每笔订单业务员--业务员的订单总数<br>
+
+每日--活跃店铺数--店铺名汇总--拿货量总数<br>
+
 <div class="box">
     <div class="img">
         <img style="width:1000px;height:400px;" src="/images/3-Dingtalk_20201214135515.jpg" alt="3" />
     </div>
     <ul class="list" style="width:860px;height:400px;">
-        <li><span>功能:</span> <font size="4" color="#FF4500">销售数量  7天增长情况</font></li>
+        <li><span>功能:</span> <font size="4" color="#FF4500">趋势--7天均值采样--销售数量--增长情况</font></li>
         <li><span>查询:</span>			
         			<form name="form" action="avg7day" method="post">
 						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
@@ -51,7 +69,7 @@ font:hover {color: green;}
         <img style="width:1000px;height:400px;" src="/images/3-Dingtalk_20201214135515.jpg" alt="27" />
     </div>
     <ul class="list" style="width:860px;height:400px;">
-        <li><span>功能:</span> <font size="4" color="#FF4500">销售数量,订单数,拿货门店数  7天增长情况</font></li>
+        <li><span>功能:</span> <font size="4" color="#FF4500">趋势--7天均值采样--销售数量--订单数--拿货门店数--7天增长情况</font></li>
         <li><span>查询:</span>			
         			<form name="form" action="avgAll7day" method="post">
 						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
@@ -74,8 +92,8 @@ font:hover {color: green;}
     <div class="img">
         <img style="width:600px;height:200px;" src="/images/4-Dingtalk_20201214135858.jpg" alt="4" />
     </div>
-    <ul class="list" style="width:300px;height:400px;">
-        <li><span>功能:</span> <font size="4" color="#FF4500">销售数量 月增长情况</font></li>
+    <ul class="list" style="width:400px;height:400px;">
+        <li><span>功能:</span> <font size="4" color="#FF4500">趋势--月总拿货量--销售数量--增长情况</font></li>
         <li><span>查询:</span>			
         			<form name="form" action="monthAdd" method="post">
 						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
@@ -92,27 +110,74 @@ font:hover {color: green;}
 
 <div class="box">
     <div class="img">
-        <img style="width:400px;height:200px;" src="/images/13-Dingtalk_20201214212633.jpg" alt="13" />
+        <img style="width:800px;height:300px;" src="/images/23-Dingtalk_20201230231435.jpg" alt="23" />
     </div>
-    <ul class="list">
-        <li><span>功能:</span> <font size="4" color="#FF4500">按月统计订单数与顾客数</font></li>
+    <ul class="list" style="width:800px;height:300px;">
+        <li><span>功能:</span> <font size="4" color="#FF4500">评价--每个门店--拿货总量--拿货回数--平均拿货量--均值评价</font></li>
         <li><span>查询:</span>			
-        			<form name="form" action="monthOrderCustomer" method="post">
-						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
+        			<form name="form" action="avgJudge" method="post">
+						<input type="text" name="posYear"  required="required" style="width: 30px;" /> 年
+						<input type="text" name="posMonth"  style="width: 30px;" /> 月
+						<input type="text" name="posDay"  style="width: 30px;" /> 日 ： 如果<br>
+						0 <= 拿货数量 <= <input type="text" name="count1" value="10" required="required"  style="width: 50px;" />是
+						<input type="text" name="res1"  value="不好" style="width: 50px;" /> <br>
+						
+						<input type="text" name="count2"  value="10" style="width: 50px;" />  
+						<  拿货数量 <= <input type="text" name="count3" value="20" style="width: 50px;" /> 是
+						<input type="text" name="res2" value="一般" style="width: 50px;" /> <br>
+						其他情况 ：<input type="text" name="res3" value="很好" style="width: 50px;" /> <br>
+						
+						
 						<input type="submit" value="查询" /> 
 						<input type="reset" value="重置">
 					</form>
 		</li>
-        <li><span>描述：</span><p>按按月统计订单数与顾客数</p></li>
+        <li><span>描述：</span><p>根据输入的项目，查询对应（年，年月，年月日），平均拿货评价</p></li>
     </ul>
 </div>
 
 <div class="box">
     <div class="img">
-        <img style="width:500px;height:200px;" src="/images/29-Dingtalk_20201227141247.jpg" alt="29" />
+        <img style="width:1000px;height:400px;" src="/images/7-Dingtalk_20201214150331.jpg" alt="7" />
     </div>
-    <ul class="list" style="width:300px;height:400px;">
-        <li><span>功能:</span> <font size="4" color="#FF4500">销售数量  星期分布</font></li>
+    <ul class="list">
+        <li><span>功能:</span> <font size="4" color="#FF4500">统计--每个门店--年内每月--拿货总数</font></li>
+        <li><span>查询:</span>			
+        			<form name="form" action="everyMonth" method="post">
+						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
+						月：<input type="text" name="posMonth" style="width: 30px;" /> 
+						<input type="submit" value="查询" /> 
+						<input type="reset" value="重置">
+					</form>
+		</li>
+        <li><span>描述：</span><p>给定（年，年月），统计每个门店各个月拿了多少货;</p></li>
+    </ul>
+</div>
+
+<div class="box">
+    <div class="img">
+        <img style="width:1000px;height:400px;" src="/images/6-Dingtalk_20201214144609.jpg" alt="6" />
+    </div>
+    <ul class="list">
+        <li><span>功能:</span> <font size="4" color="#FF4500">统计--每个门店--周内每天--拿货总数</font></li>
+        <li><span>查询:</span>			
+        			<form name="form" action="everyWeek" method="post">
+						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
+						月：<input type="text" name="posMonth" style="width: 30px;" /> 
+						<input type="submit" value="查询" /> 
+						<input type="reset" value="重置">
+					</form>
+		</li>
+        <li><span>描述：</span><p>给定（年，年月，年月日），各个名店周内每天的销售情况;</p></li>
+    </ul>
+</div>
+
+<div class="box">
+    <div class="img">
+        <img style="width:600px;height:200px;" src="/images/29-Dingtalk_20201227141247.jpg" alt="29" />
+    </div>
+    <ul class="list" style="width:450px;height:400px;">
+        <li><span>功能:</span> <font size="4" color="#FF4500">统计--某年/某月--周内每天--拿货总数</font></li>
         <li><span>查询:</span>			
         			<form name="form" action="weekendDisplay" method="post">
 						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
@@ -132,8 +197,8 @@ font:hover {color: green;}
     <div class="img">
         <img style="width:500px;height:200px;" src="/images/30-Dingtalk_20201227143144.jpg" alt="30" />
     </div>
-    <ul class="list" style="width:300px;height:400px;">
-        <li><span>功能:</span> <font size="4" color="#FF4500">销售数量 年内每个月   星期分布</font></li>
+    <ul class="list" style="width:450px;height:400px;">
+        <li><span>功能:</span> <font size="4" color="#FF4500">统计--年内每月--周内每天--拿货总数</font></li>
         <li><span>查询:</span>			
         			<form name="form" action="monthPerYearWeekendDisplay" method="post">
 						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
@@ -141,45 +206,31 @@ font:hover {color: green;}
 						<input type="reset" value="重置">
 					</form>
 		</li>
-        <li><span>描述：</span><p>>销售数量 年内每个月   星期分布</p></li>
+        <li><span>描述：</span><p>销售数量 年内每个月   星期分布</p></li>
     </ul>
 </div>
 
 <div class="box">
     <div class="img">
-        <img style="width:1000px;height:400px;" src="/images/6-Dingtalk_20201214144609.jpg" alt="6" />
+        <img style="width:400px;height:200px;" src="/images/13-Dingtalk_20201214212633.jpg" alt="13" />
     </div>
     <ul class="list">
-        <li><span>功能:</span> <font size="4" color="#FF4500">各个门店 周内每天 拿货情况</font></li>
+        <li><span>功能:</span> <font size="4" color="#FF4500">统计--每个月份--订单数--门店数--拿货总数</font></li>
         <li><span>查询:</span>			
-        			<form name="form" action="everyWeek" method="post">
+        			<form name="form" action="monthOrderCustomer" method="post">
 						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
-						月：<input type="text" name="posMonth" style="width: 30px;" /> 
 						<input type="submit" value="查询" /> 
 						<input type="reset" value="重置">
 					</form>
 		</li>
-        <li><span>描述：</span><p>给定（年，年月，年月日），各个名店周内每天的销售情况;</p></li>
+        <li><span>描述：</span><p>按按月统计订单数与顾客数</p></li>
     </ul>
 </div>
 
-<div class="box">
-    <div class="img">
-        <img style="width:1000px;height:400px;" src="/images/7-Dingtalk_20201214150331.jpg" alt="7" />
-    </div>
-    <ul class="list">
-        <li><span>功能:</span> <font size="4" color="#FF4500">各个门店 年内每月 拿货情况</font></li>
-        <li><span>查询:</span>			
-        			<form name="form" action="everyMonth" method="post">
-						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
-						月：<input type="text" name="posMonth" style="width: 30px;" /> 
-						<input type="submit" value="查询" /> 
-						<input type="reset" value="重置">
-					</form>
-		</li>
-        <li><span>描述：</span><p>给定（年，年月），统计每个门店各个月拿了多少货;</p></li>
-    </ul>
-</div>
+
+
+
+
 
 <div class="box">
     <div class="img">
@@ -241,33 +292,7 @@ font:hover {color: green;}
     </ul>
 </div>
 
-<div class="box">
-    <div class="img">
-        <img style="width:1000px;height:300px;" src="/images/23-Dingtalk_20201225140150.jpg" alt="23" />
-    </div>
-    <ul class="list">
-        <li><span>功能:</span> <font size="4" color="#FF4500">平均拿货评价</font></li>
-        <li><span>查询:</span>			
-        			<form name="form" action="avgJudge" method="post">
-						<input type="text" name="posYear"  required="required" style="width: 30px;" /> 年
-						<input type="text" name="posMonth"  style="width: 30px;" /> 月
-						<input type="text" name="posDay"  style="width: 30px;" /> 日 <br>如果<br>
-						0 <= 拿货数量 <= <input type="text" name="count1" value="10" required="required"  style="width: 50px;" />是
-						<input type="text" name="res1"  value="不好" style="width: 50px;" /> <br>
-						
-						<input type="text" name="count2"  value="10" style="width: 50px;" />  
-						<  拿货数量 <= <input type="text" name="count3" value="20" style="width: 50px;" /> 是
-						<input type="text" name="res2" value="一般" style="width: 50px;" /> <br>
-						其他情况 ：<input type="text" name="res3" value="很好" style="width: 50px;" /> <br>
-						
-						
-						<input type="submit" value="查询" /> 
-						<input type="reset" value="重置">
-					</form>
-		</li>
-        <li><span>描述：</span><p>根据输入的项目，查询对应（年，年月，年月日），平均拿货评价</p></li>
-    </ul>
-</div>
+
 
 <div class="box">
     <div class="img">
