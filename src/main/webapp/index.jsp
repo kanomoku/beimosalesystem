@@ -61,7 +61,7 @@ td {
 	<input type="reset" value="重置">
 </form>
 <br>
-<a href="indexResult.jsp">销售结果统计页</a><br>
+<a href="indexResult.jsp">空白页</a><br>
 <a href="indexGoodsSale.jsp">产品相关页</a><br>
 <a href="indexProfit.jsp">利润相关页</a><br>
 <a href="indexStore.jsp">门店相关页</a><br>

@@ -222,6 +222,77 @@ font:hover {color: green;}
     </ul>
 </div>
 
+<div class="box">
+    <div class="img">
+        <img style="width:600px;height:300px;" src="/images/18-Dingtalk_20201224145629.jpg" alt="18" />
+    </div>
+    <ul class="list">
+        <li><span>功能:</span> <font size="4" color="#FF4500">每笔订单业务员是谁，以及业务员的订单总数</font></li>
+        <li><span>查询:</span>			
+        			<form name="form" action="orderAgencyAndCount" method="post">
+						<input type="text" name="posYear" required="required" style="width: 30px;" /> 年
+						<input type="text" name="posMonth"  style="width: 30px;" /> 月
+						<input type="text" name="posDay"  style="width: 30px;" /> 日.<br>
+						<input type="submit" value="查询" /> 
+						<input type="reset" value="重置">
+					</form>
+		</li>
+        <li><span>描述：</span><p>根据输入的项目，查询对应（年，年月，年月日），每笔订单业务员是谁，以及业务员的订单总数</p></li>
+    </ul>
+</div>
+
+<div class="box">
+    <div class="img">
+        <img style="width:1000px;height:300px;" src="/images/23-Dingtalk_20201225140150.jpg" alt="23" />
+    </div>
+    <ul class="list">
+        <li><span>功能:</span> <font size="4" color="#FF4500">平均拿货评价</font></li>
+        <li><span>查询:</span>			
+        			<form name="form" action="avgJudge" method="post">
+						<input type="text" name="posYear"  required="required" style="width: 30px;" /> 年
+						<input type="text" name="posMonth"  style="width: 30px;" /> 月
+						<input type="text" name="posDay"  style="width: 30px;" /> 日 <br>如果<br>
+						0 <= 拿货数量 <= <input type="text" name="count1" value="10" required="required"  style="width: 50px;" />是
+						<input type="text" name="res1"  value="不好" style="width: 50px;" /> <br>
+						
+						<input type="text" name="count2"  value="10" style="width: 50px;" />  
+						<  拿货数量 <= <input type="text" name="count3" value="20" style="width: 50px;" /> 是
+						<input type="text" name="res2" value="一般" style="width: 50px;" /> <br>
+						其他情况 ：<input type="text" name="res3" value="很好" style="width: 50px;" /> <br>
+						
+						
+						<input type="submit" value="查询" /> 
+						<input type="reset" value="重置">
+					</form>
+		</li>
+        <li><span>描述：</span><p>根据输入的项目，查询对应（年，年月，年月日），平均拿货评价</p></li>
+    </ul>
+</div>
+
+<div class="box">
+    <div class="img">
+        <img style="width:600px;height:300px;" src="/images/24-Dingtalk_20201225161647.jpg" alt="24" />
+    </div>
+    <ul class="list">
+        <li><span>功能:</span> <font size="4" color="#FF4500">每日--活跃店铺数--店铺名汇总--拿货量总数</font></li>
+        <li><span>查询:</span>			
+        			<form name="form" action="activedStore" method="post">
+						从<input type="text" name="posYear"  required="required" style="width: 30px;" /> 年
+						<input type="text" name="posMonth"  required="required" style="width: 30px;" /> 月
+						<input type="text" name="posDay" required="required" style="width: 30px;" /> 日 <br>
+						到<input type="text" name="posYear1"  required="required" style="width: 30px;" /> 年
+						<input type="text" name="posMonth1"  required="required" style="width: 30px;" /> 月
+						<input type="text" name="posDay1" required="required" style="width: 30px;" /> 日 
+						<br>的活跃店铺数<br>
+						<input type="submit" value="查询" /> 
+						<input type="reset" value="重置">
+					</form>
+		</li>
+        <li><span>描述：</span><p>根据输入的项目，查询对应（年月日-年月日），活跃店铺数</p></li>
+    </ul>
+</div>
+
+
 </body>
 <br>
 <br>

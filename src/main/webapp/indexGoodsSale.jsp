@@ -24,54 +24,16 @@ font:hover {color: green;}
 </head>
  
 <body>
-<div class="box">
-    <div class="img">
-        <img style="width:1000px;height:300px;" src="/images/23-Dingtalk_20201225140150.jpg" alt="23" />
-    </div>
-    <ul class="list">
-        <li><span>功能:</span> <font size="4" color="#FF4500">没有拿指定口味的店汇总</font></li>
-        <li><span>查询:</span>			
-        			<form name="form" action="buyAButNotBuyB" method="post">
-						<input type="text" name="posYear"  required="required" style="width: 30px;" /> 年
-						<input type="text" name="posMonth"  style="width: 30px;" /> 月
-						<input type="text" name="posDay"  style="width: 30px;" /> 日 <br>没有拿
-						<input type="text" name="likeName1" required="required" style="width: 50px;" />和
-						<input type="text" name="likeName2"  style="width: 50px;" />和
-						<input type="text" name="likeName3"  style="width: 50px;" />和
-						<input type="text" name="likeName4"  style="width: 50px;" />的店铺<br>
-						<input type="submit" value="查询" /> 
-						<input type="reset" value="重置">
-					</form>
-		</li>
-        <li><span>描述：</span><p>根据输入的项目，查询对应（年，年月，年月日），拿了货的店铺名字模糊查询</p></li>
-    </ul>
-</div>
 
-<div class="box">
-    <div class="img">
-        <img style="width:800px;height:300px;" src="/images/22-Dingtalk_20201225130411.jpg" alt="22" />
-    </div>
-    <ul class="list">
-        <li><span>功能:</span> <font size="4" color="#FF4500">店铺拿货种类统计</font></li>
-        <li><span>查询:</span>			
-        			<form name="form" action="goodsKindsPerStore" method="post">
-						<input type="text" name="posYear" required="required" style="width: 30px;" /> 年
-						<input type="text" name="posMonth"  style="width: 30px;" /> 月
-						<input type="text" name="posDay"  style="width: 30px;" /> 日，店铺拿货种类统计<br>
-						<input type="submit" value="查询" /> 
-						<input type="reset" value="重置">
-					</form>
-		</li>
-        <li><span>描述：</span><p>根据输入的项目，查询对应（年，年月，年月日），店铺拿货种类统计</p></li>
-    </ul>
-</div>
+
+
 
 <div class="box">
     <div class="img">
         <img style="width:600px;height:300px;" src="/images/16-Dingtalk_20201223130746.jpg" alt="16" />
     </div>
-    <ul class="list" style="width:500px;height:400px;">
-        <li><span>功能:</span> <font size="4" color="#FF4500">各个口味萝卜干卖出去的数量统计</font></li>
+    <ul class="list" style="width:600px;height:400px;">
+        <li><span>功能:</span> <font size="4" color="#FF4500">各个口味萝卜干----卖出去的数量统计</font></li>
         <li><span>查询:</span>			
         			<form name="form" action="tasteTotal" method="post">
 						<input type="text" name="posYear" required="required" style="width: 30px;" /> 年
