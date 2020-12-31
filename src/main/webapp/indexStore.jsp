@@ -29,7 +29,7 @@ font:hover {color: green;}
 每个门店----最高单笔拿货量----(存在并列)<br>
 每个门店----最高单笔拿货量----(并列的话取最近一笔)<br>
 每个门店----单笔拿货数量的中位数<br>
-每个门店----拿货回数--以及--单笔拿货数量的占比<br>
+每个门店----拿货回数--以及--单笔拿货数量的占比(1箱，2箱，2箱以上各自占比)<br>
 <br>
 找店铺----拿了货的店铺名字----模糊查询<br>
 找店铺----拿了货的门店数量--以及--门店名字<br>
@@ -106,7 +106,7 @@ font:hover {color: green;}
         <img style="width:1000px;height:400px;" src="/images/10-Dingtalk_20201214201749.jpg" alt="10" />
     </div>
     <ul class="list">
-        <li><span>功能:</span> <font size="4" color="#FF4500">每个门店----拿货回数--以及--单笔拿货数量的占比</font></li>
+        <li><span>功能:</span> <font size="4" color="#FF4500">每个门店----拿货回数--以及--单笔拿货数量的占比(1箱，2箱，2箱以上各自占比)</font></li>
         <li><span>查询:</span>			
         			<form name="form" action="storeTotalAndPercent" method="post">
 						<input type="text" name="posYear" required="required" style="width: 30px;" /> 年
