@@ -1163,8 +1163,9 @@ public class GetResultShowSql {
 		}
 		if (posDay != null && !"".equals(posDay)) {
 			sb.append("			and p.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
-		}		sb.append(	"	and p.pos_agency_num = a.agency_num															<br> " );
-		sb.append(	"	and p.pos_customer_num = c.customer_num															<br> " );
+		}
+		sb.append(	"	and p.pos_agency_num = a.agency_num															<br> " );
+		sb.append(	"	and s.store_customer_num = c.customer_num															<br> " );
 		sb.append(	"	and p.pos_store_num = s.store_num															<br> " );
 		sb.append(	"	group by															<br> " );
 		sb.append(	"		p.pos_store_num														<br> " );
@@ -1223,7 +1224,8 @@ public class GetResultShowSql {
 		}
 		if (posDay != null && !"".equals(posDay)) {
 			sb.append("			and p.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
-		}		sb.append(	"	and p.pos_agency_num = a.agency_num															<br> " );
+		}
+		sb.append(	"	and p.pos_agency_num = a.agency_num															<br> " );
 		sb.append(	"	group by															<br> " );
 		sb.append(	"		p.pos_agency_num														<br> " );
 		sb.append(	"	order by															<br> " );
@@ -1403,6 +1405,89 @@ public class GetResultShowSql {
 		sb.append(	"	pos p															<br> " );
 		sb.append(	"	where p.pos_year="+posYear+"															<br> " );
 		sb.append(	"	GROUP BY concat(pos_year,pos_month) 															<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	@RequestMapping("evertDayEarn")
+	public String evertDayEarn(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		String posDay = req.getParameter("posDay");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	select															<br> " );
+		sb.append(	"	date(concat(pos_year,pos_month,pos_day)) 日期,															<br> " );
+		sb.append(	"	COUNT(p.pos_num) 订单数,															<br> " );
+		sb.append(	"	COUNT(DISTINCT p.pos_store_num) 门店数,															<br> " );
+		sb.append(	"	sum(p.pos_quantity) 门店拿货数量,															<br> " );
+		sb.append(	"	floor(sum(p.pos_quantity) / 32) 箱,															<br> " );
+		sb.append(	"	mod (sum(p.pos_quantity), 32) 碗,															<br> " );
+		sb.append(	"	sum(p.pos_total_price) 门店拿货总价钱, # 从销售数据Excel 中读取															<br> " );
+		sb.append(	"	sum(p.pos_quantity) * (4.5) 门店拿货总价钱校验,															<br> " );
+		sb.append(	"	sum(p.pos_reduced_price) 门店优惠减免的价钱, # 从销售数据Excel 中读取															<br> " );
+		sb.append(	"	sum(p.pos_final_price) 门店拿货最终价钱, # 从销售数据Excel 中读取															<br> " );
+		sb.append(	"	sum(p.pos_quantity) * (4.5) - sum(p.pos_reduced_price) 门店拿货最终价钱校验,#门店拿货总价钱 - 门店优惠减免的价钱															<br> " );
+		sb.append(	"	sum(p.pos_quantity) * (6.9) 门店营业额,															<br> " );
+		sb.append(	"	sum(p.pos_quantity) * (6.9)- sum(p.pos_quantity) * (4.5) 门店理论赚, #门店营业额 - 门店拿货总价钱															<br> " );
+		sb.append(	"	sum(p.pos_quantity) * (6.9)- sum(p.pos_final_price) 门店实际赚, # 门店营业额 - 门店拿货最终价钱															<br> " );
+		sb.append(	"	sum(p.pos_quantity) * (90 / 32) 合伙人成本,															<br> " );
+		sb.append(	"	sum(p.pos_quantity) * (4.5 -(90 / 32)) 理论我赚,															<br> " );
+		sb.append(	"	sum(p.pos_final_price) - sum(p.pos_quantity) * (90 / 32) 实际我赚, #门店拿货最终价钱 - 合伙人成本															<br> " );
+		sb.append(	"	round(((sum(p.pos_quantity) * (6.9)- sum(p.pos_quantity) * (4.5))/(sum(p.pos_quantity) * (4.5 -(90 / 32)))),2) \"理论 门店赚/我赚 倍数\",															<br> " );
+		sb.append(	"	round(((sum(p.pos_quantity) * (6.9)- sum(p.pos_final_price))/(sum(p.pos_final_price) - sum(p.pos_quantity) * (90 / 32))),2) \"实际 门店赚/我赚 倍数\"															<br> " );
+		sb.append(	"	from															<br> " );
+		sb.append(	"	pos p															<br> " );
+		sb.append(	"	where															<br> " );
+		sb.append(	"	p.pos_year = "+posYear+"															<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		if (posDay != null && !"".equals(posDay)) {
+			sb.append("			and p.pos_day="+getZeroMonthDay(posDay)+"<br>	"	);
+		}
+		sb.append(	"	group by															<br> " );
+		sb.append(	"	date(concat(pos_year,pos_month,pos_day))															<br> " );
+		sb.append(	"	order by															<br> " );
+		sb.append(	"	date(concat(pos_year,pos_month,pos_day)) 															<br> " );
+		model.addAttribute("message", sb.toString());
+		return "sqlShow.jsp";
+	}
+	
+	@RequestMapping("evertMonthEarn")
+	public String evertMonthEarn(HttpServletRequest req,Model model){
+		String posYear = req.getParameter("posYear");
+		String posMonth = req.getParameter("posMonth");
+		StringBuilder sb = new StringBuilder();
+		sb.append(	"	select															<br> " );
+		sb.append(	"	concat(pos_year,pos_month) 日期,															<br> " );
+		sb.append(	"	COUNT(p.pos_num) 订单数,															<br> " );
+		sb.append(	"	COUNT(DISTINCT p.pos_store_num) 门店数,															<br> " );
+		sb.append(	"	sum(p.pos_quantity) 门店拿货数量,															<br> " );
+		sb.append(	"	floor(sum(p.pos_quantity) / 32) 箱,															<br> " );
+		sb.append(	"	mod (sum(p.pos_quantity), 32) 碗,															<br> " );
+		sb.append(	"	sum(p.pos_total_price) 门店拿货总价钱, # 从销售数据Excel 中读取															<br> " );
+		sb.append(	"	sum(p.pos_quantity) * (4.5) 门店拿货总价钱校验,															<br> " );
+		sb.append(	"	sum(p.pos_reduced_price) 门店优惠减免的价钱, # 从销售数据Excel 中读取															<br> " );
+		sb.append(	"	sum(p.pos_final_price) 门店拿货最终价钱, # 从销售数据Excel 中读取															<br> " );
+		sb.append(	"	sum(p.pos_quantity) * (4.5) - sum(p.pos_reduced_price) 门店拿货最终价钱校验,#门店拿货总价钱 - 门店优惠减免的价钱															<br> " );
+		sb.append(	"	sum(p.pos_quantity) * (6.9) 门店营业额,															<br> " );
+		sb.append(	"	sum(p.pos_quantity) * (6.9)- sum(p.pos_quantity) * (4.5) 门店理论赚, #门店营业额 - 门店拿货总价钱															<br> " );
+		sb.append(	"	sum(p.pos_quantity) * (6.9)- sum(p.pos_final_price) 门店实际赚, # 门店营业额 - 门店拿货最终价钱															<br> " );
+		sb.append(	"	sum(p.pos_quantity) * (90 / 32) 合伙人成本,															<br> " );
+		sb.append(	"	sum(p.pos_quantity) * (4.5 -(90 / 32)) 理论我赚,															<br> " );
+		sb.append(	"	sum(p.pos_final_price) - sum(p.pos_quantity) * (90 / 32) 实际我赚, #门店拿货最终价钱 - 合伙人成本															<br> " );
+		sb.append(	"	round(((sum(p.pos_quantity) * (6.9)- sum(p.pos_quantity) * (4.5))/(sum(p.pos_quantity) * (4.5 -(90 / 32)))),2) \"理论 门店赚/我赚 倍数\",															<br> " );
+		sb.append(	"	round(((sum(p.pos_quantity) * (6.9)- sum(p.pos_final_price))/(sum(p.pos_final_price) - sum(p.pos_quantity) * (90 / 32))),2) \"实际 门店赚/我赚 倍数\"															<br> " );
+		sb.append(	"	from															<br> " );
+		sb.append(	"	pos p															<br> " );
+		sb.append(	"	where															<br> " );
+		sb.append(	"	p.pos_year = "+posYear+"															<br> " );
+		if (posMonth != null && !"".equals(posMonth)) {
+			sb.append("			and p.pos_month="+getZeroMonthDay(posMonth)+"<br>	"	);
+		}
+		sb.append(	"	group by															<br> " );
+		sb.append(	"	concat(pos_year,pos_month)															<br> " );
+		sb.append(	"	order by															<br> " );
+		sb.append(	"	concat(pos_year,pos_month)															<br> " );
 		model.addAttribute("message", sb.toString());
 		return "sqlShow.jsp";
 	}

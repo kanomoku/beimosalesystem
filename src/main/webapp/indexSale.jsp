@@ -24,30 +24,34 @@ font:hover {color: green;}
 </head>
  
 <body>
-趋势--7天均值采样--销售数量--增长情况<br>
-趋势--7天均值采样--销售数量--订单数--拿货门店数--7天增长情况<br>
-趋势--月总拿货量--销售数量--增长情况<br>
+趋势--7天采样--7天销售数量--7天销售均值--增长情况<br>
+趋势--7天采样--7天销售数量--7天订单数--7天拿货门店数--增长情况<br>
+趋势--月总拿货量--增长情况<br>
+<br>
+统计--每个月份--订单数--门店数--拿货总数<br>
+统计--每日--活跃店铺数--店铺名汇总--拿货总数<br>
 <br>
 评价--每个门店--拿货总量--拿货回数--平均拿货量--均值评价<br>
 统计--每个门店--年内每月--拿货总数<br>
 统计--每个门店--周内每天--拿货总数<br>
 统计--某年/某月--周内每天--拿货总数<br>
 统计--年内每月--周内每天--拿货总数<br>
-统计--每个月份--订单数--门店数--拿货总数<br>
 <br>
-
-分布--订单单笔拿货数量分布<br>
-排名--订单单笔拿货数量排名(存在并列)<br>
 统计--每笔订单业务员--业务员的订单总数<br>
+<br>
+分布--订单单笔拿货数量分布--(单笔1-5箱去统计)<br>
+<br>
+排名--订单单笔拿货数量排名(存在并列)<br>
 
-每日--活跃店铺数--店铺名汇总--拿货量总数<br>
+
+
 
 <div class="box">
     <div class="img">
         <img style="width:1000px;height:400px;" src="/images/3-Dingtalk_20201214135515.jpg" alt="3" />
     </div>
     <ul class="list" style="width:860px;height:400px;">
-        <li><span>功能:</span> <font size="4" color="#FF4500">趋势--7天均值采样--销售数量--增长情况</font></li>
+        <li><span>功能:</span> <font size="4" color="#FF4500">趋势--7天采样--7天销售数量--7天销售均值--增长情况</font></li>
         <li><span>查询:</span>			
         			<form name="form" action="avg7day" method="post">
 						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
@@ -69,7 +73,7 @@ font:hover {color: green;}
         <img style="width:1000px;height:400px;" src="/images/3-Dingtalk_20201214135515.jpg" alt="27" />
     </div>
     <ul class="list" style="width:860px;height:400px;">
-        <li><span>功能:</span> <font size="4" color="#FF4500">趋势--7天均值采样--销售数量--订单数--拿货门店数--7天增长情况</font></li>
+        <li><span>功能:</span> <font size="4" color="#FF4500">趋势--7天采样--7天销售数量--7天订单数--7天拿货门店数--增长情况</font></li>
         <li><span>查询:</span>			
         			<form name="form" action="avgAll7day" method="post">
 						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
@@ -93,7 +97,7 @@ font:hover {color: green;}
         <img style="width:600px;height:200px;" src="/images/4-Dingtalk_20201214135858.jpg" alt="4" />
     </div>
     <ul class="list" style="width:400px;height:400px;">
-        <li><span>功能:</span> <font size="4" color="#FF4500">趋势--月总拿货量--销售数量--增长情况</font></li>
+        <li><span>功能:</span> <font size="4" color="#FF4500">趋势--月总拿货量--增长情况</font></li>
         <li><span>查询:</span>			
         			<form name="form" action="monthAdd" method="post">
 						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
@@ -237,7 +241,7 @@ font:hover {color: green;}
         <img src="/images/1-Dingtalk_20201227201208.jpg" alt="1" />
     </div>
     <ul class="list">
-        <li><span>功能:</span> <font size="4" color="#FF4500">订单单笔拿货数量分布柱状图</font></li>
+        <li><span>功能:</span> <font size="4" color="#FF4500">分布--订单单笔拿货数量分布--(单笔1-5箱去统计)</font></li>
         <li><span>查询:</span>			
         			<form name="form" action="orderTotalHistogram" method="post">
 						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
@@ -259,7 +263,7 @@ font:hover {color: green;}
         <img style="width:1000px;height:400px;" src="/images/5-Dingtalk_20201227210905.jpg" alt="2" />
     </div>
     <ul class="list">
-        <li><span>功能:</span> <font size="4" color="#FF4500">订单单笔拿货数量排名（存在并列）</font></li>
+        <li><span>功能:</span> <font size="4" color="#FF4500">排名--订单单笔拿货数量排名(存在并列)</font></li>
         <li><span>查询:</span>			
         			<form name="form" action="singleOrderQuantity" method="post">
 						年：<input type="text" name="posYear" required="required" style="width: 30px;" /> 
@@ -278,7 +282,7 @@ font:hover {color: green;}
         <img style="width:600px;height:300px;" src="/images/18-Dingtalk_20201224145629.jpg" alt="18" />
     </div>
     <ul class="list">
-        <li><span>功能:</span> <font size="4" color="#FF4500">每笔订单业务员是谁，以及业务员的订单总数</font></li>
+        <li><span>功能:</span> <font size="4" color="#FF4500">统计--每笔订单业务员--业务员的订单总数</font></li>
         <li><span>查询:</span>			
         			<form name="form" action="orderAgencyAndCount" method="post">
 						<input type="text" name="posYear" required="required" style="width: 30px;" /> 年
@@ -299,7 +303,7 @@ font:hover {color: green;}
         <img style="width:600px;height:300px;" src="/images/24-Dingtalk_20201225161647.jpg" alt="24" />
     </div>
     <ul class="list">
-        <li><span>功能:</span> <font size="4" color="#FF4500">每日--活跃店铺数--店铺名汇总--拿货量总数</font></li>
+        <li><span>功能:</span> <font size="4" color="#FF4500">统计--每日--活跃店铺数--店铺名汇总--拿货总数</font></li>
         <li><span>查询:</span>			
         			<form name="form" action="activedStore" method="post">
 						从<input type="text" name="posYear"  required="required" style="width: 30px;" /> 年
